@@ -27,7 +27,6 @@ import org.uqbar.chocolate.core.reactions.ContinuableEvent
 //		puedan ser seteados facilmente por reflection. Esto llevaría a algo similar a la inyección de dependencias. 
 
 trait Game {
-  val xxy = 1
 	var _currentScene : GameScene = null
 	def currentScene = _currentScene
 	def currentScene_=(scene : GameScene) {
