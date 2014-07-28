@@ -11,12 +11,12 @@ import org.uqbar.chocolate.core.reactions.events.MousePressed
 import org.uqbar.chocolate.core.reactions.events.Update
 import org.scalatest.FunSuite
 import org.uqbar.chocolate.core.utils.Implicits._
-import org.uqbar.chocolate.core.dimensions.Vector._
+import org.uqbar.math.vectors._
 import org.uqbar.chocolate.core.components.CollisionTestComponent
 import org.uqbar.chocolate.core.collisions.NoBoundingBox
 import org.uqbar.chocolate.core.dimensions.Positioned
 import org.uqbar.chocolate.core.collisions.RectangularBoundingBox
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 import org.uqbar.chocolate.core.components.GameComponent
 import scala.collection.mutable.Seq
 import org.uqbar.chocolate.core.reactions.annotations.io.enums.MouseButton
@@ -33,15 +33,15 @@ class GameEventTest extends FunSuite {
 	}
 
 	test("Mouse moved event triggers onMouseMoved") {
-		assertGameTriggerCountForEventEquals(1, new MouseMoved(ORIGIN))
+		assertGameTriggerCountForEventEquals(1, new MouseMoved(Origin))
 	}
 
 	test("Any MousePressed triggers onMousePressed for any button") {
-		assertGameTriggerCountForEventEquals(1, new MousePressed(MouseButton.RIGHT, ORIGIN))
+		assertGameTriggerCountForEventEquals(1, new MousePressed(MouseButton.RIGHT, Origin))
 	}
 
 	test("Left MousePressed triggers OnMousePressed for left button") {
-		assertGameTriggerCountForEventEquals(2, new MousePressed(MouseButton.LEFT, ORIGIN))
+		assertGameTriggerCountForEventEquals(2, new MousePressed(MouseButton.LEFT, Origin))
 	}
 
 	test("Any KeyPressed triggers OnKeyPressed for any key") {

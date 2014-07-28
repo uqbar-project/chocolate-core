@@ -6,7 +6,7 @@ import org.uqbar.chocolate.core.Game
 import org.uqbar.chocolate.core.appearances.Sprite
 import org.uqbar.chocolate.core.exceptions.GameException
 import scala.reflect._
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 
 class SimpleResourceLoader extends ResourceLoader {
 

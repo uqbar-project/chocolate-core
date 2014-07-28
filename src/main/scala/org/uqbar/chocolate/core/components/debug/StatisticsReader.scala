@@ -9,7 +9,7 @@ import org.uqbar.chocolate.core.appearances.Label;
 import org.uqbar.chocolate.core.components.Visible;
 import org.uqbar.chocolate.core.reactions.annotations.scene.OnUpdate;
 import org.uqbar.chocolate.core.reactions.events.Update;
-import org.uqbar.chocolate.core.dimensions.Vector;
+import org.uqbar.math.vectors.Vector;
 
 object StatisticsReader {
 	val DEBUG_FONT_SIZE = 14

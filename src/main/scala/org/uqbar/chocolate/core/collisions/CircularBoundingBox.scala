@@ -4,8 +4,8 @@ import java.awt.Graphics2D
 import java.awt.geom.Point2D
 import org.uqbar.chocolate.core.utils.Implicits._
 import scala.math.{ sqrt, pow }
-import org.uqbar.chocolate.core.dimensions.Vector
-import org.uqbar.chocolate.core.dimensions.Vector._
+import org.uqbar.math.vectors.Vector
+import org.uqbar.math.vectors._
 
 case class CircularBoundingBox(radius : Double) extends BoundingBox {
 	def left = translation.x - radius

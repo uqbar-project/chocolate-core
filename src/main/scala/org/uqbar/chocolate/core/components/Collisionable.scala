@@ -6,7 +6,7 @@ import org.uqbar.chocolate.core.GameScene
 import org.uqbar.chocolate.core.collisions.BoundingBox
 import org.uqbar.chocolate.core.dimensions.Bounded
 import org.uqbar.chocolate.core.dimensions.Positioned
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 import org.uqbar.chocolate.core.reactions.annotations.scene.OnUpdate
 import org.uqbar.chocolate.core.reactions.events.CollisionEnd
 import org.uqbar.chocolate.core.reactions.events.Collision

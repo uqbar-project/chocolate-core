@@ -5,8 +5,7 @@ import java.awt.Graphics2D
 import scala.Int.int2double
 import org.uqbar.chocolate.core.Camera
 import org.uqbar.chocolate.core.components.GameComponent
-import org.uqbar.chocolate.core.dimensions.MutableVector
-import org.uqbar.chocolate.core.dimensions.Vector.touple_to_vector
+import org.uqbar.math.vectors._
 import org.uqbar.chocolate.core.reactions.annotations.io.keyboard.OnKeyHold
 import org.uqbar.chocolate.core.reactions.annotations.io.keyboard.OnKeyPressed
 import org.uqbar.chocolate.core.reactions.events.KeyHold
@@ -17,7 +16,7 @@ import org.uqbar.chocolate.core.reactions.annotations.io.enums.Key
 import org.uqbar.chocolate.core.reactions.events.KeyPressed
 
 object NavigatorCamera extends GameComponent {
-	var INSTANCE : NavigatorCamera = null
+	var INSTANCE: NavigatorCamera = null
 
 	@OnKeyPressed(Key.F2)
 	def showOrHide {
@@ -35,14 +34,14 @@ object NavigatorCamera extends GameComponent {
 }
 
 class NavigatorCamera extends Camera with GameComponent {
-	val screenPosition : MutableVector = (0, 0)
-	val screenSize : MutableVector = (0, 0)
-	val zoom : MutableVector = (0.5, 0.5)
+	val screenPosition: MutableVector = (0, 0)
+	val screenSize: MutableVector = (0, 0)
+	val zoom: MutableVector = (0.5, 0.5)
 
 	z = 12000
 
 	@OnKeyHold
-	def translate(e : KeyHold) = e.key match {
+	def translate(e: KeyHold) = e.key match {
 		case Key.LEFT ⇒ move(-1, 0)
 		case Key.RIGHT ⇒ move(1, 0)
 		case Key.UP ⇒ move(0, -1)
@@ -57,7 +56,7 @@ class NavigatorCamera extends Camera with GameComponent {
 	}
 
 	@OnKeyPressed
-	def adjustZoom(e : KeyPressed) = e.key match {
+	def adjustZoom(e: KeyPressed) = e.key match {
 		case Key.PLUS ⇒ zoom *= 2
 		case Key.MINUS ⇒ zoom /= 2
 
@@ -67,7 +66,7 @@ class NavigatorCamera extends Camera with GameComponent {
 		case _ ⇒
 	}
 
-	override def apply(graphics : Graphics2D) = {
+	override def apply(graphics: Graphics2D) = {
 		graphics.setColor(Color.WHITE)
 		graphics.clearRect(screenPosition.x, screenPosition.y, screenSize.x, screenSize.y)
 		graphics.fillRect(screenPosition.x, screenPosition.y, screenSize.x, screenSize.y)

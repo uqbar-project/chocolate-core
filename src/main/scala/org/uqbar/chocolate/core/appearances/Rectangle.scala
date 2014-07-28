@@ -3,7 +3,7 @@ package org.uqbar.chocolate.core.appearances
 import java.awt.Color
 import java.awt.Graphics2D
 import org.uqbar.chocolate.core.utils.Implicits._
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 
 class Rectangle(size : Vector)(color : Color) extends Appearance {
 	val width = size.x

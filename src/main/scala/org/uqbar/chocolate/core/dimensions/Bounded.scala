@@ -1,6 +1,7 @@
 package org.uqbar.chocolate.core.dimensions
 
-import org.uqbar.chocolate.core.dimensions.Vector._
+import org.uqbar.math.vectors._
+import org.uqbar.math.vectors.Vector
 import org.uqbar.chocolate.core.utils.Implicits._
 
 object Bounded {

@@ -3,8 +3,7 @@ package org.uqbar.chocolate.core;
 import scala.Int.int2double
 
 import org.uqbar.chocolate.core.collisions.RectangularBoundingBox
-import org.uqbar.chocolate.core.dimensions.Vector
-import org.uqbar.chocolate.core.dimensions.Vector.touple_to_vector
+import org.uqbar.math.vectors._
 import org.scalatest.FunSuite
 
 //TODO: More exhaustive testing
@@ -19,7 +18,7 @@ class BoundingBoxTest extends FunSuite {
 		val b = RectangularBoundingBox(5, 5)
 		b.move(-2.5, 4)
 
-        val expected: Vector = (0, 1)
+		val expected: Vector = (0, 1)
 
 		assert(expected === b.collisionCorrectionVectorAgainst(t)(a, t))
 	}

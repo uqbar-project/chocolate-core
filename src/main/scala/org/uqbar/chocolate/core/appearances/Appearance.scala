@@ -4,7 +4,7 @@ import java.awt.Graphics2D
 
 import org.uqbar.chocolate.core.dimensions.Bounded
 import org.uqbar.chocolate.core.dimensions.Positioned
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 
 /*
  * COSAS A CONSIDERAR:

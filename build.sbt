@@ -1,29 +1,38 @@
 name := "chocolate-core"
 
-organization := "org.uqbar"
+description := "A multi-purpose, scala-based game engine"
 
 scalaVersion := "2.11.1"
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// PROJECT SETTINGS
+
+lazy val chocolateCore = project in file(".") dependsOn uqbarMath
+lazy val uqbarMath = uri("git://github.com/uqbar-project/uqbar-math.git#v1.0.1")
 
 libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "[2.2,)" % "test",
     "org.scala-lang" % "scala-reflect" % scalaVersion.value
 )
 
-releaseSettings
+//unmanagedSourceDirectories in Compile := Seq((scalaSource in Compile).value)
 
-// publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
+//unmanagedSourceDirectories in Test := Seq((scalaSource in Test).value)
 
-/////////////////////////////////////////////////////////////////////////////////////////////
-// ALTERNATIVA BINTRAY
+scalacOptions += "-feature"
 
-bintrayPublishSettings
-
-licenses += ("MIT", url("http://opensource.org/licenses/MIT"))
-
-bintray.Keys.bintrayOrganization in bintray.Keys.bintray := Some("uqbar")
-
-//credentials +=  Credentials("Bintray API Realm", "api.bintray.com", "nscarcella", "45c713816c7a1a4de33bf8e0f61cc92148b1d490")
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// ECLIPSE SETTINGS
 
 EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
 
 EclipseKeys.withSource := true
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// PUBLISHING SETTINGS
+
+releaseSettings
+
+crossScalaVersions := Seq(scalaVersion.value)
+
+publishTo := Some(Resolver.file("Local Maven Repository",  file(Path.userHome.absolutePath + "/.m2/repository")))

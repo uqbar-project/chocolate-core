@@ -1,7 +1,7 @@
 package org.uqbar.chocolate.core.appearances
 
 import org.uqbar.chocolate.core.dimensions.Scalable
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 
 trait ComplexAppearance extends Appearance with Scalable {
 

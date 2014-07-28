@@ -1,7 +1,7 @@
 package org.uqbar.chocolate.core.appearances;
 
 import java.awt.Graphics2D
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 
 class Animation(val meanTime : Double, val sprites : Sprite*) extends ComplexAppearance {
 	var currentIndex = 0

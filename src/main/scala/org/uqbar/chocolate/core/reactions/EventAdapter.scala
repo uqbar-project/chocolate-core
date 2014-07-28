@@ -7,7 +7,7 @@ import java.awt.event.MouseListener
 import java.awt.event.MouseMotionListener
 import scala.collection.mutable.Set
 import org.uqbar.chocolate.core.Game
-import org.uqbar.chocolate.core.dimensions.Vector._
+import org.uqbar.math.vectors._
 import org.uqbar.chocolate.core.reactions.events.KeyHold
 import org.uqbar.chocolate.core.reactions.events.KeyPressed
 import org.uqbar.chocolate.core.reactions.events.KeyReleased
@@ -17,7 +17,7 @@ import org.uqbar.chocolate.core.reactions.annotations.io.enums.Key
 import org.uqbar.chocolate.core.reactions.annotations.io.enums.MouseButton
 import org.uqbar.chocolate.core.reactions.events.MouseReleased
 import java.awt.Point
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 import scala.language.implicitConversions
 
 class EventAdapter(game : Game) extends MouseMotionListener with MouseListener with KeyListener {

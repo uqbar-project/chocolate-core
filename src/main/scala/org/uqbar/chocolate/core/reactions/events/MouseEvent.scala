@@ -4,7 +4,7 @@ import java.awt.geom.Point2D
 import org.uqbar.chocolate.core.reactions.EventSignature
 import org.uqbar.chocolate.core.reactions.annotations.io.enums.MouseButton
 import org.uqbar.chocolate.core.reactions.annotations.io.enums.MouseButton._
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 
 case class MouseMoved(position : Vector) extends SimpleEvent
 

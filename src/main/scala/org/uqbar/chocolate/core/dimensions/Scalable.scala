@@ -1,5 +1,7 @@
 package org.uqbar.chocolate.core.dimensions
 
+import org.uqbar.math.vectors.Vector
+
 trait Scalable {
 	//TODO: Estas operaciones deberían ser destructivas, no destructivas o ambas?
 	// R: Destructivas! Pero retornandose a si mismo. Además tenés el clone, para cuando no quieras efecto

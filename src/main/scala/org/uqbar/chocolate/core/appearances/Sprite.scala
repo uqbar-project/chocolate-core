@@ -5,10 +5,10 @@ import java.awt.geom.AffineTransform
 import java.awt.image.AffineTransformOp
 import java.awt.image.BufferedImage
 import org.uqbar.chocolate.core.utils.Implicits._
-import org.uqbar.chocolate.core.dimensions.Vector
-import org.uqbar.chocolate.core.dimensions.Vector._
+import org.uqbar.math.vectors.Vector
+import org.uqbar.math.vectors._
 
-class Sprite(var image : BufferedImage) extends ComplexAppearance {
+class Sprite(var image: BufferedImage) extends ComplexAppearance {
 
 	def width = image.getWidth
 	def height = image.getHeight
@@ -17,7 +17,7 @@ class Sprite(var image : BufferedImage) extends ComplexAppearance {
 	// ** QUERIES
 	// ****************************************************************
 
-	def ::(target : Sprite) = {
+	def ::(target: Sprite) = {
 		val nleft = left min target.left
 		val nright = right max target.right
 		val ntop = top min target.top
@@ -30,8 +30,8 @@ class Sprite(var image : BufferedImage) extends ComplexAppearance {
 
 		g.translate(-nleft, -ntop)
 
-		renderAt(ORIGIN, g)
-		target.renderAt(ORIGIN, g)
+		renderAt(Origin, g)
+		target.renderAt(Origin, g)
 
 		g.dispose
 
@@ -40,7 +40,7 @@ class Sprite(var image : BufferedImage) extends ComplexAppearance {
 		answer
 	}
 
-	protected def transformedImage(transformation : AffineTransform) =
+	protected def transformedImage(transformation: AffineTransform) =
 		new AffineTransformOp(transformation, AffineTransformOp.TYPE_BICUBIC).filter(image, new BufferedImage(
 			width * transformation.getScaleX.abs,
 			height * transformation.getScaleY.abs,
@@ -51,12 +51,12 @@ class Sprite(var image : BufferedImage) extends ComplexAppearance {
 	// ** TRANSFORMATIONS
 	// ****************************************************************
 
-	def scale(hRatio : Double = 1)(vRatio : Double = 1) = {
+	def scale(hRatio: Double = 1)(vRatio: Double = 1) = {
 		this.image = transformedImage(AffineTransform.getScaleInstance(hRatio, vRatio))
 		this
 	}
 
-	def rotate(radians : Double) : this.type = {
+	def rotate(radians: Double): this.type = {
 		val newImage = new BufferedImage(width, height, image.getType)
 
 		val graphics = newImage.createGraphics
@@ -73,12 +73,12 @@ class Sprite(var image : BufferedImage) extends ComplexAppearance {
 
 	def flipVertically = this.image = scale()(-1).transformedImage(AffineTransform.getTranslateInstance(0, image.getHeight))
 
-	def crop(x : Double, y : Double, width : Double, height : Double) = {
+	def crop(x: Double, y: Double, width: Double, height: Double) = {
 		this.image = image.getSubimage(x, y, width, height)
 		this
 	}
 
-	def repeat(horizontalRepetitions : Double, verticalRepetitions : Double) = {
+	def repeat(horizontalRepetitions: Double, verticalRepetitions: Double) = {
 		val horizontalIterations = horizontalRepetitions.ceil.toInt
 		val verticalIterations = verticalRepetitions.ceil.toInt
 		val newImage = new BufferedImage(
@@ -102,7 +102,7 @@ class Sprite(var image : BufferedImage) extends ComplexAppearance {
 	// ** GAME LOOP OPERATIONS
 	// ****************************************************************
 
-	def update(delta : Double) = {}
+	def update(delta: Double) = {}
 
-	protected def doRenderAt(x : Double, y : Double, graphics : Graphics2D) = graphics.drawImage(image, x, y, null)
+	protected def doRenderAt(x: Double, y: Double, graphics: Graphics2D) = graphics.drawImage(image, x, y, null)
 }

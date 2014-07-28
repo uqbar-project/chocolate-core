@@ -7,31 +7,28 @@ import scala.collection.mutable.Seq
 
 import org.uqbar.chocolate.core.components.GameComponent
 import org.uqbar.chocolate.core.dimensions.Positioned
-import org.uqbar.chocolate.core.dimensions.Vector
-import org.uqbar.chocolate.core.dimensions.Vector.ORIGIN
-import org.uqbar.chocolate.core.dimensions.Vector.touple_to_vector
+import org.uqbar.math.vectors._
 import org.uqbar.chocolate.core.reactions.events.RenderRequired
 import org.uqbar.chocolate.core.utils.Implicits.double_to_int
 
-class DefaultCamera(scene : GameScene) extends Camera {
-	val zoom : Vector = (1, 1)
-	val screenSize : Vector = scene.game.displaySize
-	val screenPosition = ORIGIN
+class DefaultCamera(scene: GameScene) extends Camera {
+	val zoom: Vector = (1, 1)
+	val screenSize: Vector = scene.game.displaySize
+	val screenPosition = Origin
 	val z = Double.MaxValue
 }
 
-class TargetedCamera(var screenPosition : Vector, var screenSize : Vector)(var z : Double)(var zoom : Vector = (1, 1))(var target : Positioned) extends Camera {
+class TargetedCamera(var screenPosition: Vector, var screenSize: Vector)(var z: Double)(var zoom: Vector = (1, 1))(var target: Positioned) extends Camera {
 	override def translation = target.translation - screenSize / 2
 }
 
-
 trait Camera extends Positioned {
-	def zoom : Vector
-	def screenSize : Vector
-	def screenPosition : Vector
-	def z : Double
+	def zoom: Vector
+	def screenSize: Vector
+	def screenPosition: Vector
+	def z: Double
 
-	def apply(graphics : Graphics2D) = {
+	def apply(graphics: Graphics2D) = {
 		val answer = graphics.create(screenPosition.x, screenPosition.y, screenSize.x, screenSize.y).asInstanceOf[Graphics2D]
 
 		val t = translation
@@ -43,7 +40,7 @@ trait Camera extends Positioned {
 		answer
 	}
 
-	def shoot(components : Seq[GameComponent], graphics : Graphics2D) {
+	def shoot(components: Seq[GameComponent], graphics: Graphics2D) {
 		val g = this(graphics)
 
 		components filter (_.z < z) foreach { _.reactTo(new RenderRequired(g)) }

@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.awt.Font
 import java.awt.Color
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 import java.awt.Graphics2D
 
 class LogPanel(val maxLineCount : Int) extends Visible {

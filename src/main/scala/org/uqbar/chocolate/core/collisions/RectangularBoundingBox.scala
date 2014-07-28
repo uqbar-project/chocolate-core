@@ -2,8 +2,8 @@ package org.uqbar.chocolate.core.collisions;
 
 import scala.collection.immutable.List
 
-import org.uqbar.chocolate.core.dimensions.Vector
-import org.uqbar.chocolate.core.dimensions.Vector._
+import org.uqbar.math.vectors.Vector
+import org.uqbar.math.vectors._
 
 case class RectangularBoundingBox(asize : Vector) extends BoundingBox {
 

@@ -11,7 +11,7 @@ import org.uqbar.chocolate.core.Game
 import org.uqbar.chocolate.core.appearances.Sprite
 import org.uqbar.chocolate.core.exceptions.GameException
 import collection.JavaConversions._
-import org.uqbar.chocolate.core.dimensions.Vector
+import org.uqbar.math.vectors.Vector
 
 class JarResourceLoader(jarPath : String) extends ResourceLoader {
 
