@@ -4,17 +4,15 @@ import java.awt.Graphics2D
 import java.awt.geom.Point2D
 import org.uqbar.chocolate.core.appearances.Appearance
 import org.uqbar.chocolate.core.appearances.Invisible
-import org.uqbar.chocolate.core.reactions.annotations.scene.OnUpdate
 import org.uqbar.chocolate.core.reactions.events.Update
 import org.uqbar.chocolate.core.dimensions._
 import org.uqbar.chocolate.core.utils.Implicits._
-import org.uqbar.chocolate.core.reactions.annotations.scene.OnRenderRequired
 import org.uqbar.chocolate.core.reactions.events.RenderRequired
 import org.uqbar.chocolate.core.reactions.events.RenderRequired
 
 trait Visible extends GameComponent with Bounded with Positioned {
 
-	def appearance : Appearance
+	def appearance: Appearance
 
 	override def left = translation.x + appearance.left
 	override def top = translation.y + appearance.top
@@ -26,5 +24,5 @@ trait Visible extends GameComponent with Bounded with Positioned {
 		case RenderRequired(graphics) ⇒ render(graphics)
 	}
 
-	def render(graphics : Graphics2D) = appearance.renderAt(translation, graphics)
+	def render(graphics: Graphics2D) = appearance.renderAt(translation, graphics)
 }

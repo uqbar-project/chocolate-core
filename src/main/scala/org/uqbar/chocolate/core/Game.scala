@@ -17,7 +17,8 @@ import org.uqbar.chocolate.core.reactions.events.SceneSetAsCurrent
 import org.uqbar.chocolate.core.utils.Implicits.double_to_int
 import org.uqbar.chocolate.core.utils.Implicits.min
 import org.uqbar.chocolate.core.components.debug.NavigatorCamera
-import org.uqbar.chocolate.core.reactions.ContinuableEvent
+import org.uqbar.chocolate.core.reactions.events.ContinuableEvent
+import org.uqbar.chocolate.core.reactions.events.EventDispatcher
 
 // TODO: IDEAS LOCAS:
 //	*	Logueo por pantalla y a archivo, etc. debería "agregarse" de forma transparente al juego.
@@ -26,10 +27,10 @@ import org.uqbar.chocolate.core.reactions.ContinuableEvent
 //		Esta linea de pensamiento me lleva a creer que los componentes no deberían inicializarse en el constructor, sino ser algo así como beans, los cuales
 //		puedan ser seteados facilmente por reflection. Esto llevaría a algo similar a la inyección de dependencias. 
 
-trait Game {
-	var _currentScene : GameScene = null
+trait Game extends EventDispatcher {
+	var _currentScene: GameScene = null
 	def currentScene = _currentScene
-	def currentScene_=(scene : GameScene) {
+	def currentScene_=(scene: GameScene) {
 		if (currentScene != null) currentScene.game = null
 
 		_currentScene = scene
@@ -39,8 +40,8 @@ trait Game {
 
 	currentScene = new GameScene
 
-	def title : String
-	def displaySize : (Int, Int)
+	def title: String
+	def displaySize: (Int, Int)
 
 	// ****************************************************************
 	// ** QUERIES
@@ -56,13 +57,13 @@ trait Game {
 	// ** OPERATIONS
 	// ****************************************************************
 
-	def pushEvent(event : GameEvent) = currentScene pushEvent event
+	override def pushEvent(event: GameEvent): Unit = currentScene pushEvent event
 
-	def startPushingEvent(event : ContinuableEvent) = currentScene startPushingEvent event
+	override def startPushingEvent(event: ContinuableEvent): Unit = currentScene startPushingEvent event
 
-	def stopPushingEvent(event : ContinuableEvent) = currentScene stopPushingEvent event
+	override def stopPushingEvent(event: ContinuableEvent): Unit = currentScene stopPushingEvent event
 
-	def takeStep(graphics : Graphics2D) = currentScene takeStep graphics
+	def takeStep(graphics: Graphics2D) = currentScene takeStep graphics
 
 	def pause = currentScene.pause
 
@@ -78,7 +79,7 @@ trait Game {
 		currentScene.addComponent(NavigatorCamera)
 
 		ReactionRegistry.+=[Visible] {
-			case (RenderRequired(graphics), target : Visible) ⇒
+			case (RenderRequired(graphics), target: Visible) ⇒
 				graphics.setColor(Color.YELLOW)
 				val dx = target.translation.x
 				val dy = target.translation.y
@@ -110,8 +111,8 @@ trait Game {
 
 				// Contour
 				box match {
-					case c : CircularBoundingBox ⇒ graphics.drawOval(basePosition.x + c.left, basePosition.y + c.top, c.width, c.height)
-					case r : RectangularBoundingBox ⇒ graphics.drawRect(basePosition.x + r.left, basePosition.y + r.top, r.width, r.height)
+					case c: CircularBoundingBox ⇒ graphics.drawOval(basePosition.x + c.left, basePosition.y + c.top, c.width, c.height)
+					case r: RectangularBoundingBox ⇒ graphics.drawRect(basePosition.x + r.left, basePosition.y + r.top, r.width, r.height)
 				}
 		}
 

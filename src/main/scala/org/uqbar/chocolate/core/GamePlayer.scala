@@ -5,21 +5,23 @@ import java.awt.Graphics2D
 import java.awt.Point
 import java.awt.Toolkit
 import java.awt.image.MemoryImageSource
-
-import org.uqbar.chocolate.core.reactions.EventAdapter
 import org.uqbar.chocolate.core.utils.Implicits.tuple_to_dimension
+import org.uqbar.chocolate.core.reactions.events.adapters.KeyboardAdapter
+import org.uqbar.chocolate.core.reactions.events.adapters.MouseAdapter
 
-class GamePlayer(val game : Game) extends Canvas with Runnable {
+class GamePlayer(val target: Game) extends Canvas with Runnable with KeyboardAdapter with MouseAdapter {
 
 	final val BACKBUFFER_COUNT = 2
 
 	@volatile
-	var playerThread : Thread = null
+	var playerThread: Thread = null
 
-	addEventListener(new EventAdapter(game))
-	setPreferredSize(game.displaySize)
-	setMinimumSize(game.displaySize)
-	setMaximumSize(game.displaySize)
+	addMouseListener(this)
+	addMouseMotionListener(this)
+	addKeyListener(this)
+	setPreferredSize(target.displaySize)
+	setMinimumSize(target.displaySize)
+	setMaximumSize(target.displaySize)
 	setIgnoreRepaint(true)
 	setFocusTraversalKeysEnabled(false)
 	setFocusable(true)
@@ -44,7 +46,7 @@ class GamePlayer(val game : Game) extends Canvas with Runnable {
 	}
 
 	def resume {
-		playerThread = new Thread(GamePlayer.this, game.title)
+		playerThread = new Thread(GamePlayer.this, target.title)
 
 		playerThread.start
 	}
@@ -52,26 +54,20 @@ class GamePlayer(val game : Game) extends Canvas with Runnable {
 	def pause {
 		playerThread = null
 
-		game.pause
+		target.pause
 	}
 
 	def takeStep {
 		val graphics = getBufferStrategy.getDrawGraphics.asInstanceOf[Graphics2D]
 		graphics.clearRect(0, 0, getWidth, getHeight)
 
-		game.takeStep(graphics)
+		target.takeStep(graphics)
 
 		graphics.dispose
 
 		Thread.sleep(0, 1)
 
 		getBufferStrategy.show
-	}
-
-	def addEventListener(eventListener : EventAdapter) {
-		addMouseListener(eventListener)
-		addMouseMotionListener(eventListener)
-		addKeyListener(eventListener)
 	}
 
 	def hideMouse {

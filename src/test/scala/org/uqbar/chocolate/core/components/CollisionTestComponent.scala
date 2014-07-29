@@ -2,7 +2,6 @@ package org.uqbar.chocolate.core.components
 
 import org.uqbar.chocolate.core.CollisionTest
 import org.uqbar.chocolate.core.collisions.BoundingBox
-import org.uqbar.chocolate.core.reactions.annotations.collision.OnCollision
 import org.uqbar.chocolate.core.reactions.events.Collision
 import scala.collection.mutable.HashSet
 import org.uqbar.math.vectors.Vector
@@ -20,8 +19,7 @@ class CollisionTestComponent(
 	// ** TRIGGERS
 	// ****************************************************************
 
-	@OnCollision
-	def collidedWithA(event : Collision) = collided add event.collidedComponent
+	in {case Collision(target) => collided add target }
 
 	// ****************************************************************
 	// ** QUERIES

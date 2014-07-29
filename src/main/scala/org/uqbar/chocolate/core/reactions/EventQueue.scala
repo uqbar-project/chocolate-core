@@ -6,10 +6,12 @@ import scala.collection.mutable.HashMap
 import scala.collection.mutable.HashSet
 import scala.collection.mutable.Buffer
 import scala.collection.mutable.ArrayBuffer
+import org.uqbar.chocolate.core.reactions.events.EventContinuation
+import org.uqbar.chocolate.core.reactions.events.ContinuableEvent
 
 class EventQueue {
 	var events = new ArrayBuffer[GameEvent]
-	val continuations = new HashMap[EventSignature, EventContinuation]
+	val continuations = new HashMap[GameEvent, EventContinuation]
 
 	reset
 
@@ -17,14 +19,14 @@ class EventQueue {
 	// ** OPERATIONS
 	// ****************************************************************
 
-	def pushEvent(event : GameEvent) = synchronized { events += event }
+	def pushEvent(event: GameEvent) = synchronized { events += event }
 
-	def startPushingEvent(event : ContinuableEvent) = synchronized {
-		continuations put (event.mainSignature, new EventContinuation(event))
+	def startPushingEvent(event: ContinuableEvent) = synchronized {
+		continuations put (event, new EventContinuation(event))
 	}
 
-	def stopPushingEvent(event : ContinuableEvent) = synchronized {
-		continuations remove event.mainSignature
+	def stopPushingEvent(event: ContinuableEvent) = synchronized {
+		continuations remove event
 	}
 
 	def takePendingEvents = synchronized {

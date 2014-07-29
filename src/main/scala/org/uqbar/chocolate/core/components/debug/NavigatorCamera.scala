@@ -6,21 +6,17 @@ import scala.Int.int2double
 import org.uqbar.chocolate.core.Camera
 import org.uqbar.chocolate.core.components.GameComponent
 import org.uqbar.math.vectors._
-import org.uqbar.chocolate.core.reactions.annotations.io.keyboard.OnKeyHold
-import org.uqbar.chocolate.core.reactions.annotations.io.keyboard.OnKeyPressed
-import org.uqbar.chocolate.core.reactions.events.KeyHold
-import org.uqbar.chocolate.core.reactions.events.KeyPressed
 import org.uqbar.chocolate.core.utils.Implicits.double_to_int
-import org.uqbar.chocolate.core.reactions.annotations.scene.OnSceneSetAsCurrent
-import org.uqbar.chocolate.core.reactions.annotations.io.enums.Key
-import org.uqbar.chocolate.core.reactions.events.KeyPressed
+import org.uqbar.chocolate.core.reactions.io.Key._
+import org.uqbar.chocolate.core.reactions.io._
+import org.uqbar.chocolate.core.reactions.events.Pressed
+import org.uqbar.chocolate.core.reactions.events.Hold
 
 object NavigatorCamera extends GameComponent {
 	var INSTANCE: NavigatorCamera = null
 
-	@OnKeyPressed(Key.F2)
-	def showOrHide {
-		if (INSTANCE == null) {
+	in {
+		case Pressed(Function(2)) => if (INSTANCE == null) {
 			INSTANCE = new NavigatorCamera
 			INSTANCE.screenSize.set(game.displaySize / 2)
 			scene.addCamera(INSTANCE)
@@ -40,30 +36,21 @@ class NavigatorCamera extends Camera with GameComponent {
 
 	z = 12000
 
-	@OnKeyHold
-	def translate(e: KeyHold) = e.key match {
-		case Key.LEFT ⇒ move(-1, 0)
-		case Key.RIGHT ⇒ move(1, 0)
-		case Key.UP ⇒ move(0, -1)
-		case Key.DOWN ⇒ move(0, 1)
+	in {
+		case Hold(Left, delta) => move(-delta, 0)
+		case Hold(Right, delta) => move(delta, 0)
+		case Hold(Navigation.Arrow.Up(KeyLocation.Anywhere), delta) => move(0, -delta)
+		case Hold(Navigation.Arrow.Down(KeyLocation.Anywhere), delta) => move(0, delta)
+		case Hold(Letter.A, delta) => screenPosition += (-delta, 0)
+		case Hold(Letter.D, delta) => screenPosition += (delta, 0)
+		case Hold(Letter.W, delta) => screenPosition += (0, -delta)
+		case Hold(Letter.S, delta) => screenPosition += (0, delta)
 
-		case Key.A ⇒ screenPosition += (-5, 0)
-		case Key.D ⇒ screenPosition += (5, 0)
-		case Key.W ⇒ screenPosition += (0, -5)
-		case Key.S ⇒ screenPosition += (0, 5)
+		case Pressed(Symbol.+(KeyLocation.Anywhere)) => zoom *= 2
+		case Pressed(Symbol.-(KeyLocation.Anywhere)) => zoom /= 2
 
-		case _ ⇒
-	}
-
-	@OnKeyPressed
-	def adjustZoom(e: KeyPressed) = e.key match {
-		case Key.PLUS ⇒ zoom *= 2
-		case Key.MINUS ⇒ zoom /= 2
-
-		case Key.E ⇒ screenSize *= 2
-		case Key.Q ⇒ screenSize /= 2
-
-		case _ ⇒
+		case Pressed(Letter.E) => screenSize *= 2
+		case Pressed(Letter.Q) => screenSize /= 2
 	}
 
 	override def apply(graphics: Graphics2D) = {

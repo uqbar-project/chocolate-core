@@ -7,19 +7,19 @@ import org.uqbar.chocolate.core.collisions.BoundingBox
 import org.uqbar.chocolate.core.dimensions.Bounded
 import org.uqbar.chocolate.core.dimensions.Positioned
 import org.uqbar.math.vectors.Vector
-import org.uqbar.chocolate.core.reactions.annotations.scene.OnUpdate
 import org.uqbar.chocolate.core.reactions.events.CollisionEnd
 import org.uqbar.chocolate.core.reactions.events.Collision
 import org.uqbar.chocolate.core.utils.Implicits.double_to_int
 import scala.collection.mutable.Set
+import org.uqbar.chocolate.core.reactions.events.Update
 
 trait Collisionable extends GameComponent with Bounded with Positioned {
-	def boundingBox : BoundingBox
+	def boundingBox: BoundingBox
 
 	//TODO: Representar esto de una forma mejor...
-	private var _coveredZones : Rectangle = null
+	private var _coveredZones: Rectangle = null
 	def coveredZones = if (_coveredZones == null) recalculateCoveredZones else _coveredZones
-	def coveredZones_=(newCoveredZones : Rectangle) = _coveredZones = newCoveredZones
+	def coveredZones_=(newCoveredZones: Rectangle) = _coveredZones = newCoveredZones
 
 	override def left = translation.x + boundingBox.left
 	override def top = translation.y + boundingBox.top
@@ -31,7 +31,7 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 	// ****************************************************************
 
 	// TODO: Registrar al inicio los grupos que me interesan e ignorar el resto
-	def collidesWith(target : Collisionable) = boundingBox(this.translation)(target.boundingBox, target.translation)
+	def collidesWith(target: Collisionable) = boundingBox(this.translation)(target.boundingBox, target.translation)
 
 	// ****************************************************************
 	// ** COLLISION OPERATIONS
@@ -40,7 +40,8 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 	//TODO: así? Está bien que esto sea miembro de collissionable?
 	protected val collidingComponents = Set[Collisionable]()
 
-	@OnUpdate
+	in { case Update(_) => triggerCollisions }
+
 	def triggerCollisions = {
 		val zones = coveredZones
 		val alreadyChecked = Set[GameComponent]()
@@ -49,7 +50,6 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 			i ← zones.x to zones.getMaxX
 			j ← zones.y to zones.getMaxY
 			target ← scene.collisionZones.getOrElse((i, j), Nil)
-
 			if !(this == target || alreadyChecked.contains(target))
 		} {
 			if (collidesWith(target)) {
@@ -64,12 +64,12 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 		}
 	}
 
-	def shouldTriggerCollisionAgainst(target : Collisionable, componentsToIgnore : Seq[GameComponent]) =
+	def shouldTriggerCollisionAgainst(target: Collisionable, componentsToIgnore: Seq[GameComponent]) =
 		!(componentsToIgnore contains target) &&
 			(this != target) &&
 			(this collidesWith target)
 
-	def recalculateCoveredZones : Rectangle = {
+	def recalculateCoveredZones: Rectangle = {
 		val zoneSize = scene.collisionZoneSize
 		val standingX = (left / zoneSize.width).floor
 		val standingY = (top / zoneSize.height).floor
@@ -85,7 +85,7 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 	// ** ACCESORS
 	// ****************************************************************
 
-	protected def foreachZone(action : (Int, Int) ⇒ Unit) = {
+	protected def foreachZone(action: (Int, Int) ⇒ Unit) = {
 		val zones = coveredZones
 		for {
 			x ← zones.x until zones.getMaxX
@@ -93,7 +93,7 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 		} action(x, y)
 	}
 
-	override def scene_=(newScene : GameScene) = {
+	override def scene_=(newScene: GameScene) = {
 		if (scene != null) foreachZone((x, y) ⇒ scene.removeFromCollisionZone(x, y, this))
 
 		super.scene_=(newScene)
@@ -104,7 +104,7 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 		}
 	}
 
-	override def translation_=(newPosition : Vector) {
+	override def translation_=(newPosition: Vector) {
 		if ((translation.x.toInt != newPosition.x.toInt || translation.y.toInt != newPosition.y.toInt) && scene != null) {
 			foreachZone { (x, y) ⇒ scene.removeFromCollisionZone(x, y, this) }
 			super.translation = (newPosition)

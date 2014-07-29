@@ -7,17 +7,18 @@ scalaVersion := "2.11.1"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PROJECT SETTINGS
 
-lazy val chocolateCore = project in file(".") dependsOn uqbarMath
-lazy val uqbarMath = uri("git://github.com/uqbar-project/uqbar-math.git#v1.0.1")
+//lazy val chocolateCore = project in file(".") dependsOn uqbarMath
+//lazy val uqbarMath = uri("git://github.com/uqbar-project/uqbar-math.git#v1.0.0")
 
 libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "[2.2,)" % "test",
-    "org.scala-lang" % "scala-reflect" % scalaVersion.value
+    "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+    "org.uqbar" %% "uqbar-math" % "1.1.0-SNAPSHOT"
 )
 
-//unmanagedSourceDirectories in Compile := Seq((scalaSource in Compile).value)
+unmanagedSourceDirectories in Compile := Seq((scalaSource in Compile).value)
 
-//unmanagedSourceDirectories in Test := Seq((scalaSource in Test).value)
+unmanagedSourceDirectories in Test := Seq((scalaSource in Test).value)
 
 scalacOptions += "-feature"
 

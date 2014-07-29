@@ -1,15 +1,16 @@
 package org.uqbar.chocolate.core.components.debug;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-
-import org.uqbar.chocolate.core.appearances.Label;
-import org.uqbar.chocolate.core.components.Visible;
-import org.uqbar.chocolate.core.reactions.annotations.scene.OnUpdate;
-import org.uqbar.chocolate.core.reactions.events.Update;
+import java.awt.Color
+import java.awt.Dimension
+import java.awt.Font
+import java.awt.Graphics2D
+import org.uqbar.chocolate.core.appearances.Label
+import org.uqbar.chocolate.core.components.Visible
+import org.uqbar.chocolate.core.reactions.events.Update
 import org.uqbar.math.vectors.Vector;
+
+import StatisticsReader._
+import org.uqbar.chocolate.core.reactions.events.Update
 
 object StatisticsReader {
 	val DEBUG_FONT_SIZE = 14
@@ -18,24 +19,22 @@ object StatisticsReader {
 	val DEBUG_FONT_COLOR = Color.GREEN.brighter
 }
 
-import StatisticsReader._
-
-class StatisticsReader(windowSize : Int = 5) extends Visible {
+class StatisticsReader(windowSize: Int = 5) extends Visible {
 	translation = (10, 10)
 	val appearance = new Label(DEBUG_FONT)(DEBUG_FONT_COLOR)("")
 
-	var currentFPS : Double = 0
-	var minFPS : Double = 0
-	var maxFPS : Double = 0
-	var lastWindowMinFPS : Double = 0
-	var lastWindowMaxFPS : Double = 0
-	var lastWindowFPSAverage : Double = 0
-	var windowMinFPS : Double = 0
-	var windowMaxFPS : Double = 0
-	var windowStartTime : Double = System.nanoTime
-	var windowSum : Double = 0
-	var windowCount : Double = 0
-	var updatesToIgnore : Int = StatisticsReader.INITIAL_UPDATES_TO_IGNORE
+	var currentFPS: Double = 0
+	var minFPS: Double = 0
+	var maxFPS: Double = 0
+	var lastWindowMinFPS: Double = 0
+	var lastWindowMaxFPS: Double = 0
+	var lastWindowFPSAverage: Double = 0
+	var windowMinFPS: Double = 0
+	var windowMaxFPS: Double = 0
+	var windowStartTime: Double = System.nanoTime
+	var windowSum: Double = 0
+	var windowCount: Double = 0
+	var updatesToIgnore: Int = StatisticsReader.INITIAL_UPDATES_TO_IGNORE
 
 	// ****************************************************************
 	// ** INITIALIZATION
@@ -47,27 +46,26 @@ class StatisticsReader(windowSize : Int = 5) extends Visible {
 	// ** TRIGGERS
 	// ****************************************************************
 
-	@OnUpdate
-	def updateStatistics(event : Update) = {
-		if (updatesToIgnore > 0) {
-			updatesToIgnore = updatesToIgnore - 1
-		} else if (event.delta > 0) {
-			currentFPS = (1 / event.delta).toLong
+	in {
+		case Update(delta) =>
+			if (updatesToIgnore > 0) {
+				updatesToIgnore = updatesToIgnore - 1
+			} else if (delta > 0) {
+				currentFPS = (1 / delta).toLong
 
-			if (windowExpired) {
-				resetWindow
-			} else {
-				windowCount = windowCount + 1
-				windowSum = windowSum + currentFPS
+				if (windowExpired) {
+					resetWindow
+				} else {
+					windowCount = windowCount + 1
+					windowSum = windowSum + currentFPS
+				}
+
+				updateMinValues
+				updateMaxValues
 			}
 
-			updateMinValues
-			updateMaxValues
-		}
+			appearance.asInstanceOf[Label].text = statisticsDescription
 	}
-
-	@OnUpdate
-	def updateLabel = appearance.asInstanceOf[Label].text = statisticsDescription
 
 	// ****************************************************************
 	// ** QUERIES
