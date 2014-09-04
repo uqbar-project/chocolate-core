@@ -21,8 +21,8 @@ class FloorShower extends GameComponent {
 		case RenderRequired(graphics) =>
 			graphics.setColor(Color.MAGENTA)
 
-			val gameWidth = game.displayWidth
-			val gameHeight = game.displayHeight
+			val gameWidth = game.displaySize.x.toInt
+			val gameHeight = game.displaySize.y.toInt
 			val collisionZonesWidth = scene.collisionZoneSize.getWidth().toInt
 			val collisionZonesHeight = scene.collisionZoneSize.getHeight().toInt
 

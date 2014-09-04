@@ -13,6 +13,8 @@ import org.uqbar.chocolate.core.reactions.events.Pressed
 import org.uqbar.chocolate.core.reactions.events.Hold
 
 object NavigatorCamera extends GameComponent {
+	val MOVE_SPEED = 50
+
 	var INSTANCE: NavigatorCamera = null
 
 	in {
@@ -37,14 +39,14 @@ class NavigatorCamera extends Camera with GameComponent {
 	z = 12000
 
 	in {
-		case Hold(Left, delta) => move(-delta, 0)
-		case Hold(Right, delta) => move(delta, 0)
-		case Hold(Navigation.Arrow.Up(KeyLocation.Anywhere), delta) => move(0, -delta)
-		case Hold(Navigation.Arrow.Down(KeyLocation.Anywhere), delta) => move(0, delta)
-		case Hold(Letter.A, delta) => screenPosition += (-delta, 0)
-		case Hold(Letter.D, delta) => screenPosition += (delta, 0)
-		case Hold(Letter.W, delta) => screenPosition += (0, -delta)
-		case Hold(Letter.S, delta) => screenPosition += (0, delta)
+		case Hold(Navigation.Arrow.Left(_), delta) => move(-delta * NavigatorCamera.MOVE_SPEED, 0)
+		case Hold(Navigation.Arrow.Right(_), delta) => move(delta * NavigatorCamera.MOVE_SPEED, 0)
+		case Hold(Navigation.Arrow.Up(_), delta) => move(0, -delta * NavigatorCamera.MOVE_SPEED)
+		case Hold(Navigation.Arrow.Down(_), delta) => move(0, delta * NavigatorCamera.MOVE_SPEED)
+		case Hold(Letter.A, delta) => screenPosition += (-delta * NavigatorCamera.MOVE_SPEED, 0)
+		case Hold(Letter.D, delta) => screenPosition += (delta * NavigatorCamera.MOVE_SPEED, 0)
+		case Hold(Letter.W, delta) => screenPosition += (0, -delta * NavigatorCamera.MOVE_SPEED)
+		case Hold(Letter.S, delta) => screenPosition += (0, delta * NavigatorCamera.MOVE_SPEED)
 
 		case Pressed(Symbol.+(KeyLocation.Anywhere)) => zoom *= 2
 		case Pressed(Symbol.-(KeyLocation.Anywhere)) => zoom /= 2

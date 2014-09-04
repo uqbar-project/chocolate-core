@@ -87,7 +87,7 @@ class StatisticsReader(windowSize: Int = 5) extends Visible {
 			Used Memory: %9.2f Kb
 			Total Memory: %5.2f Kb
 			""" format
-			(game.displayWidth, game.displayHeight,
+			(game.displaySize.x, game.displaySize.y,
 				zonesSize.getWidth.toInt, zonesSize.getHeight.toInt,
 				currentFPS, minFPS, maxFPS,
 				lastWindowFPSAverage, lastWindowMinFPS, lastWindowMaxFPS, windowSize,

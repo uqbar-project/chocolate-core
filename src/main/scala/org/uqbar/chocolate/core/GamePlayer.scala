@@ -5,6 +5,7 @@ import java.awt.Graphics2D
 import java.awt.Point
 import java.awt.Toolkit
 import java.awt.image.MemoryImageSource
+import org.uqbar.math.vectors._
 import org.uqbar.chocolate.core.utils.Implicits.tuple_to_dimension
 import org.uqbar.chocolate.core.reactions.events.adapters.KeyboardAdapter
 import org.uqbar.chocolate.core.reactions.events.adapters.MouseAdapter

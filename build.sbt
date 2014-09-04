@@ -7,8 +7,8 @@ scalaVersion := "2.11.1"
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // PROJECT SETTINGS
 
-//lazy val chocolateCore = project in file(".") dependsOn uqbarMath
-//lazy val uqbarMath = uri("git://github.com/uqbar-project/uqbar-math.git#v1.0.0")
+lazy val chocolateCore = project in file(".") dependsOn uqbarMath
+lazy val uqbarMath = uri("git://github.com/uqbar-project/uqbar-math.git")
 
 libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "[2.2,)" % "test",

@@ -17,7 +17,7 @@ import java.awt.Color
 import org.uqbar.math.vectors.Vector
 import java.awt.Graphics2D
 
-class LogPanel(val maxLineCount: Int) extends Visible {
+class LogPanel(val maxLineCount: Int = 5) extends Visible {
 
 	final val DATE_FORMAT = new SimpleDateFormat("HH:mm:ss:SSS")
 	final val FONT = new Font(Font.SANS_SERIF, Font.BOLD, 14)
