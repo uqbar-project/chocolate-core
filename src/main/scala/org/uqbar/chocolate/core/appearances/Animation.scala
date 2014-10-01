@@ -1,36 +1,36 @@
 package org.uqbar.chocolate.core.appearances;
 
-import java.awt.Graphics2D
 import org.uqbar.math.vectors.Vector
+import org.uqbar.cacao.Renderer
 
-class Animation(val meanTime : Double, val sprites : Sprite*) extends ComplexAppearance {
+class Animation(val meanTime: Double, val sprites: Sprite*) extends ComplexAppearance {
 	var currentIndex = 0
 	var remainingTime = meanTime
 
-	def width = currentSprite.width
-	def height = currentSprite.height
+	def size = currentSprite.size
 
 	// ****************************************************************
 	// ** TRANSFORMATIONS
 	// ****************************************************************
 
-	def scale(hRatio : Double)(vRatio : Double) = {
-		sprites.map(_.scale(hRatio)(vRatio))
+	def scale(ratio: Vector) = {
+		sprites.map(_.scale(ratio))
 		this
 	}
 
-	def crop(x : Double, y : Double, width : Double, height : Double) = {
-		sprites.map(_.crop(x, y, width, height))
-		this
-	}
-	def flipHorizontally = sprites.map(_.flipHorizontally)
-	def flipVertically = sprites.map(_.flipVertically)
+	//TODO: DEPRECATED CACAO
+	//	def crop(x: Double, y: Double, width: Double, height: Double) = {
+	//		sprites.map(_.crop(x, y, width, height))
+	//		this
+	//	}
+	//	def flipHorizontally = sprites.map(_.flipHorizontally)
+	//	def flipVertically = sprites.map(_.flipVertically)
 
-	def repeat(horizontalRepetitions : Double, verticalRepetitions : Double) {
+	def repeat(horizontalRepetitions: Double, verticalRepetitions: Double) {
 		sprites.map(_.repeat(horizontalRepetitions, verticalRepetitions))
 	}
 
-	def rotate(angle : Double) = sprites.map(_.rotate(angle))
+	def rotate(angle: Double) = sprites.map(_.rotate(angle))
 
 	// ****************************************************************
 	// ** QUERIES
@@ -51,12 +51,12 @@ class Animation(val meanTime : Double, val sprites : Sprite*) extends ComplexApp
 	// ** OPERATIONS
 	// ****************************************************************
 
-	override def update(delta : Double) = {
+	override def update(delta: Double) = {
 		remainingTime -= delta
 		if (remainingTime <= 0) advance
 	}
 
-	protected def doRenderAt(x : Double, y : Double, graphics : Graphics2D) = currentSprite.renderAt((x, y), graphics)
+	protected def doRenderAt(position: Vector, renderer: Renderer) = currentSprite.renderAt(position)(renderer)
 
 	protected def advance = {
 		currentIndex = (currentIndex + 1) % sprites.length

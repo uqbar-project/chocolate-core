@@ -1,6 +1,6 @@
 package org.uqbar.chocolate.core.collisions;
 
-import java.awt.Graphics2D
+import org.uqbar.cacao.Renderer
 import java.awt.geom.Point2D
 import org.uqbar.chocolate.core.dimensions.Bounded
 import org.uqbar.chocolate.core.components.Collisionable

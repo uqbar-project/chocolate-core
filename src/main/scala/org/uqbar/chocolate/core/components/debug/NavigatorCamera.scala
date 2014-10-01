@@ -1,7 +1,7 @@
 package org.uqbar.chocolate.core.components.debug
 
-import java.awt.Color
-import java.awt.Graphics2D
+import org.uqbar.cacao.Color
+import org.uqbar.cacao.Renderer
 import scala.Int.int2double
 import org.uqbar.chocolate.core.Camera
 import org.uqbar.chocolate.core.components.GameComponent
@@ -11,6 +11,7 @@ import org.uqbar.chocolate.core.reactions.io.Key._
 import org.uqbar.chocolate.core.reactions.io._
 import org.uqbar.chocolate.core.reactions.events.Pressed
 import org.uqbar.chocolate.core.reactions.events.Hold
+import org.uqbar.cacao.Rectangle
 
 object NavigatorCamera extends GameComponent {
 	val MOVE_SPEED = 50
@@ -55,11 +56,11 @@ class NavigatorCamera extends Camera with GameComponent {
 		case Pressed(Letter.Q) => screenSize /= 2
 	}
 
-	override def apply(graphics: Graphics2D) = {
-		graphics.setColor(Color.WHITE)
-		graphics.clearRect(screenPosition.x, screenPosition.y, screenSize.x, screenSize.y)
-		graphics.fillRect(screenPosition.x, screenPosition.y, screenSize.x, screenSize.y)
+	override def apply(renderer: Renderer) = {
+		renderer.color = Color.White
+		renderer.clear(screenPosition, screenSize)
+		renderer.fill(Rectangle(screenPosition, screenSize))
 
-		super.apply(graphics)
+		super.apply(renderer)
 	}
 }

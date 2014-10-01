@@ -1,27 +1,25 @@
 package org.uqbar.chocolate.core.components.debug;
 
-import java.awt.Color
+import org.uqbar.cacao.Color
 import java.awt.Dimension
-import java.awt.Font
-import java.awt.Graphics2D
+import org.uqbar.cacao.Renderer
 import org.uqbar.chocolate.core.appearances.Label
 import org.uqbar.chocolate.core.components.Visible
 import org.uqbar.chocolate.core.reactions.events.Update
-import org.uqbar.math.vectors.Vector;
-
+import org.uqbar.math.vectors.Vector
 import StatisticsReader._
 import org.uqbar.chocolate.core.reactions.events.Update
+import org.uqbar.cacao._
 
 object StatisticsReader {
 	val DEBUG_FONT_SIZE = 14
 	val INITIAL_UPDATES_TO_IGNORE = 5
-	val DEBUG_FONT = new Font(Font.MONOSPACED, Font.BOLD, DEBUG_FONT_SIZE)
-	val DEBUG_FONT_COLOR = Color.GREEN.brighter
+	val DEBUG_FONT_COLOR = Color.Green.brighter()
 }
 
-class StatisticsReader(windowSize: Int = 5) extends Visible {
+class StatisticsReader(font: Font, windowSize: Int = 5) extends Visible {
 	translation = (10, 10)
-	val appearance = new Label(DEBUG_FONT)(DEBUG_FONT_COLOR)("")
+	val appearance = new Label(font, DEBUG_FONT_COLOR)("")
 
 	var currentFPS: Double = 0
 	var minFPS: Double = 0

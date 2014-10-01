@@ -5,22 +5,21 @@ import scala.collection.immutable.List
 import org.uqbar.math.vectors.Vector
 import org.uqbar.math.vectors._
 
-case class RectangularBoundingBox(asize : Vector) extends BoundingBox {
+case class RectangularBoundingBox(asize: Vector) extends BoundingBox {
 
 	def left = translation.x
 	def top = translation.y
-	def width = asize.x
-	def height = asize.y
+	def size = asize
 
 	// ****************************************************************
 	// ** COLLISION DETECTION
 	// ****************************************************************
 
-	protected def collidesWith(translation : Vector)(targetTranslation : Vector) = {
-		case rectangle : RectangularBoundingBox ⇒ collidesWithRectangle(translation)(rectangle, targetTranslation)
+	protected def collidesWith(translation: Vector)(targetTranslation: Vector) = {
+		case rectangle: RectangularBoundingBox ⇒ collidesWithRectangle(translation)(rectangle, targetTranslation)
 	}
 
-	protected def collidesWithRectangle(translation : Vector)(target : RectangularBoundingBox, targetTranslation : Vector) : Boolean = {
+	protected def collidesWithRectangle(translation: Vector)(target: RectangularBoundingBox, targetTranslation: Vector): Boolean = {
 		val ownLeft = left + translation.x
 		val ownTop = top + translation.y
 		val ownRight = right + translation.x
@@ -38,11 +37,11 @@ case class RectangularBoundingBox(asize : Vector) extends BoundingBox {
 	// ** COLLISION CORRECTION QUERIES
 	// ****************************************************************
 
-	def collisionCorrectionVector(translation : Vector)(targetTranslation : Vector) = {
-		case rectangle : RectangularBoundingBox ⇒ collisionCorrectionVectorAgainstRectangle(translation)(rectangle, targetTranslation)
+	def collisionCorrectionVector(translation: Vector)(targetTranslation: Vector) = {
+		case rectangle: RectangularBoundingBox ⇒ collisionCorrectionVectorAgainstRectangle(translation)(rectangle, targetTranslation)
 	}
 
-	protected def collisionCorrectionVectorAgainstRectangle(translation : Vector)(target : RectangularBoundingBox, targetTranslation : Vector) = List[Vector](
+	protected def collisionCorrectionVectorAgainstRectangle(translation: Vector)(target: RectangularBoundingBox, targetTranslation: Vector) = List[Vector](
 		(0, target.bottom(targetTranslation) - top(translation)),
 		(target.right(targetTranslation) - left(translation), 0),
 		(0, target.top(targetTranslation) - bottom(translation)),

@@ -1,12 +1,11 @@
 package org.uqbar.chocolate.core.appearances;
 
-import java.awt.Graphics2D;
-import org.uqbar.math.vectors.Vector
+import org.uqbar.cacao.Renderer
+import org.uqbar.math.vectors._
 
 class Invisible extends Appearance {
-	def width = 0
-	def height = 0
+	def size = Origin
 
-	def update(delta : Double) = {}
-	protected def doRenderAt(x : Double, y : Double, graphics : Graphics2D) = {}
+	def update(delta: Double) {}
+	protected def doRenderAt(position: Vector, renderer: Renderer) {}
 }

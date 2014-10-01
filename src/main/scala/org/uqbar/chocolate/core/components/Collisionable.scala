@@ -23,8 +23,7 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 
 	override def left = translation.x + boundingBox.left
 	override def top = translation.y + boundingBox.top
-	override def width = boundingBox.width
-	override def height = boundingBox.height
+	override def size = boundingBox.size
 
 	// ****************************************************************
 	// ** QUERIES
@@ -73,8 +72,8 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 		val zoneSize = scene.collisionZoneSize
 		val standingX = (left / zoneSize.width).floor
 		val standingY = (top / zoneSize.height).floor
-		val coveredX = (width / zoneSize.width).ceil + (if (boundingBox.left % zoneSize.width == 0) 0 else 1)
-		val coveredY = (height / zoneSize.height).ceil + (if (boundingBox.top % zoneSize.height == 0) 0 else 1)
+		val coveredX = (size.x / zoneSize.width).ceil + (if (boundingBox.left % zoneSize.width == 0) 0 else 1)
+		val coveredY = (size.y / zoneSize.height).ceil + (if (boundingBox.top % zoneSize.height == 0) 0 else 1)
 
 		_coveredZones = new Rectangle(standingX, standingY, coveredX, coveredY)
 

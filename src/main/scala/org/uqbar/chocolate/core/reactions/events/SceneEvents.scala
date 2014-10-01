@@ -1,17 +1,18 @@
 package org.uqbar.chocolate.core.reactions.events
 
-import java.awt.Graphics2D
+import org.uqbar.cacao.Renderer
 import scala.collection.Map
 import scala.collection.Set
 import org.uqbar.chocolate.core.components.Collisionable
 import org.uqbar.chocolate.core.components.GameComponent
+import org.uqbar.cacao.Renderer
 
 case class ComponentAdded(component: GameComponent) extends GameEvent
 case class ComponentRemoved(component: GameComponent) extends GameEvent
 
-case class SceneSetAsCurrent() extends GameEvent
+case object SceneSetAsCurrent extends GameEvent
 
-case class RenderRequired(graphics: Graphics2D) extends GameEvent
+case class Render(renderer: Renderer) extends GameEvent
 
 case class Destroyed(component: GameComponent) extends GameEvent
 

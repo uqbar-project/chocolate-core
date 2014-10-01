@@ -1,14 +1,11 @@
 package org.uqbar.chocolate.core.components;
 
-import java.awt.Graphics2D
-import java.awt.geom.Point2D
+import org.uqbar.cacao.Renderer
 import org.uqbar.chocolate.core.appearances.Appearance
-import org.uqbar.chocolate.core.appearances.Invisible
+import org.uqbar.chocolate.core.dimensions.Bounded
+import org.uqbar.chocolate.core.dimensions.Positioned
+import org.uqbar.chocolate.core.reactions.events.Render
 import org.uqbar.chocolate.core.reactions.events.Update
-import org.uqbar.chocolate.core.dimensions._
-import org.uqbar.chocolate.core.utils.Implicits._
-import org.uqbar.chocolate.core.reactions.events.RenderRequired
-import org.uqbar.chocolate.core.reactions.events.RenderRequired
 
 trait Visible extends GameComponent with Bounded with Positioned {
 
@@ -16,13 +13,12 @@ trait Visible extends GameComponent with Bounded with Positioned {
 
 	override def left = translation.x + appearance.left
 	override def top = translation.y + appearance.top
-	override def width = appearance.width
-	override def height = appearance.height
+	override def size = appearance.size
 
 	in {
 		case Update(delta) ⇒ appearance.update(delta)
-		case RenderRequired(graphics) ⇒ render(graphics)
+		case Render(renderer) ⇒ render(renderer)
 	}
 
-	def render(graphics: Graphics2D) = appearance.renderAt(translation, graphics)
+	def render(renderer: Renderer) = appearance.renderAt(translation)(renderer)
 }

@@ -1,15 +1,13 @@
 package org.uqbar.chocolate.core
 
-import java.awt.Graphics2D
-
+import org.uqbar.cacao.Renderer
 import scala.Int.int2double
 import scala.collection.mutable.Seq
-
 import org.uqbar.chocolate.core.components.GameComponent
 import org.uqbar.chocolate.core.dimensions.Positioned
 import org.uqbar.math.vectors._
-import org.uqbar.chocolate.core.reactions.events.RenderRequired
 import org.uqbar.chocolate.core.utils.Implicits.double_to_int
+import org.uqbar.chocolate.core.reactions.events.Render
 
 class DefaultCamera(scene: GameScene) extends Camera {
 	val zoom: Vector = (1, 1)
@@ -28,23 +26,14 @@ trait Camera extends Positioned {
 	def screenPosition: Vector
 	def z: Double
 
-	def apply(graphics: Graphics2D) = {
-		val answer = graphics.create(screenPosition.x, screenPosition.y, screenSize.x, screenSize.y).asInstanceOf[Graphics2D]
+	def apply(renderer: Renderer) = renderer
+		.cropped(screenPosition)(screenSize)
+		.scaled(zoom)
+		.translated(-translation)
 
-		val t = translation
+	def shoot(components: Seq[GameComponent], renderer: Renderer) {
 
-		answer.scale(zoom.x, zoom.y)
-
-		answer.translate(-translation.x, -translation.y)
-
-		answer
-	}
-
-	def shoot(components: Seq[GameComponent], graphics: Graphics2D) {
-		val g = this(graphics)
-
-		components filter (_.z < z) foreach { _.reactTo(new RenderRequired(g)) }
-
-		g.dispose
+		val adjustedRenderer = this(renderer)
+		components filter (_.z < z) foreach { _ reactTo Render(adjustedRenderer) }
 	}
 }

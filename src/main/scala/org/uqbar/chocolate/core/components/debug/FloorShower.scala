@@ -1,9 +1,11 @@
 package org.uqbar.chocolate.core.components.debug;
 
-import java.awt.Color
-import java.awt.Graphics2D
+import org.uqbar.cacao.Renderer
 import org.uqbar.chocolate.core.components.GameComponent
-import org.uqbar.chocolate.core.reactions.events.RenderRequired
+import org.uqbar.chocolate.core.reactions.events.Render
+import org.uqbar.cacao.Line
+import org.uqbar.cacao.Color
+import org.uqbar.cacao.Rectangle
 
 class FloorShower extends GameComponent {
 
@@ -18,18 +20,17 @@ class FloorShower extends GameComponent {
 	// ****************************************************************
 
 	in {
-		case RenderRequired(graphics) =>
-			graphics.setColor(Color.MAGENTA)
-
+		case Render(renderer) =>
 			val gameWidth = game.displaySize.x.toInt
 			val gameHeight = game.displaySize.y.toInt
-			val collisionZonesWidth = scene.collisionZoneSize.getWidth().toInt
-			val collisionZonesHeight = scene.collisionZoneSize.getHeight().toInt
+			val collisionZonesWidth = scene.collisionZoneSize.getWidth.toInt
+			val collisionZonesHeight = scene.collisionZoneSize.getHeight.toInt
 
-			for (i ← 0.to(gameWidth, collisionZonesWidth)) graphics.drawLine(i, 0, i, gameHeight)
-			for (j ← 0.to(gameHeight, collisionZonesHeight)) graphics.drawLine(0, j, gameWidth, j)
+			renderer.color = Color.Magenta
+			for (i ← 0.to(gameWidth, collisionZonesWidth)) renderer draw Line((i, 0), (i, gameHeight))
+			for (j ← 0.to(gameHeight, collisionZonesHeight)) renderer draw Line((0, j), (gameWidth, j))
 
-			graphics.setColor(Color.YELLOW)
-			graphics.drawRect(0, 0, gameWidth - 1, gameHeight - 1)
+			renderer.color = Color.Yellow
+			renderer draw Rectangle((0, 0), (gameWidth - 1, gameHeight - 1))
 	}
 }

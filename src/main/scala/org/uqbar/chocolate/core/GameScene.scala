@@ -1,7 +1,7 @@
 package org.uqbar.chocolate.core;
 
 import java.awt.Dimension
-import java.awt.Graphics2D
+import org.uqbar.cacao.Renderer
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.HashMap
 import scala.collection.mutable.HashSet
@@ -10,7 +10,7 @@ import org.uqbar.chocolate.core.components.GameComponent
 import org.uqbar.chocolate.core.reactions.EventQueue
 import org.uqbar.chocolate.core.reactions.events.ComponentAdded
 import org.uqbar.chocolate.core.reactions.events.GameEvent
-import org.uqbar.chocolate.core.reactions.events.RenderRequired
+
 import scala.collection.mutable.ListBuffer
 import scala.collection.immutable.List
 import org.uqbar.chocolate.core.reactions.events.ComponentRemoved
@@ -86,7 +86,7 @@ class GameScene extends EventDispatcher {
 
 	override def stopPushingEvent(event: ContinuableEvent) = eventQueue stopPushingEvent event
 
-	def takeStep(graphics: Graphics2D) = {
+	def takeStep(renderer: Renderer) = {
 		val events = eventQueue.takePendingEvents
 
 		for (component ← components.clone)
@@ -95,7 +95,7 @@ class GameScene extends EventDispatcher {
 
 		if (cameras.isEmpty) cameras += new DefaultCamera(this)
 
-		for (camera ← cameras) camera.shoot(components, graphics)
+		for (camera ← cameras) camera.shoot(components, renderer)
 
 		nextTranslation match {
 			case Some(s) ⇒ {

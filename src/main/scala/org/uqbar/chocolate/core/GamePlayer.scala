@@ -1,32 +1,18 @@
 package org.uqbar.chocolate.core;
 
 import java.awt.Canvas
-import java.awt.Graphics2D
+import org.uqbar.cacao.Renderer
 import java.awt.Point
 import java.awt.Toolkit
 import java.awt.image.MemoryImageSource
 import org.uqbar.math.vectors._
-import org.uqbar.chocolate.core.utils.Implicits.tuple_to_dimension
 import org.uqbar.chocolate.core.reactions.events.adapters.KeyboardAdapter
 import org.uqbar.chocolate.core.reactions.events.adapters.MouseAdapter
 
-class GamePlayer(val target: Game) extends Canvas with Runnable with KeyboardAdapter with MouseAdapter {
-
-	final val BACKBUFFER_COUNT = 2
+class GamePlayer(val target: Game, renderer: Renderer) extends Runnable {
 
 	@volatile
 	var playerThread: Thread = null
-
-	addMouseListener(this)
-	addMouseMotionListener(this)
-	addKeyListener(this)
-	setPreferredSize(target.displaySize)
-	setMinimumSize(target.displaySize)
-	setMaximumSize(target.displaySize)
-	setIgnoreRepaint(true)
-	setFocusTraversalKeysEnabled(false)
-	setFocusable(true)
-	hideMouse
 
 	// ****************************************************************
 	// ** QUERIES
@@ -39,11 +25,9 @@ class GamePlayer(val target: Game) extends Canvas with Runnable with KeyboardAda
 	// ****************************************************************
 
 	def run {
-		createBufferStrategy(BACKBUFFER_COUNT)
 		playerThread = Thread.currentThread
 
-		while (!isPaused)
-			takeStep
+		while (!isPaused) takeStep
 	}
 
 	def resume {
@@ -58,21 +42,15 @@ class GamePlayer(val target: Game) extends Canvas with Runnable with KeyboardAda
 		target.pause
 	}
 
-	def takeStep {
-		val graphics = getBufferStrategy.getDrawGraphics.asInstanceOf[Graphics2D]
-		graphics.clearRect(0, 0, getWidth, getHeight)
+	def takeStep = {
+		renderer.beforeRendering
 
-		target.takeStep(graphics)
+		renderer.clear(Origin, target.displaySize)
 
-		graphics.dispose
+		target.takeStep(renderer)
+
+		renderer.afterRendering
 
 		Thread.sleep(0, 1)
-
-		getBufferStrategy.show
-	}
-
-	def hideMouse {
-		val image = createImage(new MemoryImageSource(16, 16, new Array[Int](16 * 16), 0, 16))
-		setCursor(Toolkit.getDefaultToolkit.createCustomCursor(image, new Point(0, 0), ""))
 	}
 }

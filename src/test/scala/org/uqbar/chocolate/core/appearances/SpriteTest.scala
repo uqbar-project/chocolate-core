@@ -34,7 +34,7 @@ object SpriteTest {
 		dumpSprite(sprite.scale(scaleX, scaleY), route + fileName)
 	}
 
-	protected def dumpSprite(sprite: Sprite, filePath: String) = ImageIO.write(sprite.image, "png", new File(filePath))
+	protected def dumpSprite(sprite: Sprite, filePath: String) = sprite.image.writeTo(s"$filePath.png")
 }
 
 class SpriteTest extends FunSuite with BeforeAndAfter {
@@ -54,7 +54,7 @@ class SpriteTest extends FunSuite with BeforeAndAfter {
 	// ****************************************************************
 
 	before {
-		val loader = new SimpleResourceLoader()
+		val loader = new SimpleResourceLoader(null)
 
 		Original = loader.loadSprite("/images/original.png")
 
@@ -94,14 +94,14 @@ class SpriteTest extends FunSuite with BeforeAndAfter {
 	// ****************************************************************
 
 	protected def assertSpriteMatches(expected: Sprite, actual: Sprite) = {
-		if (expected.width != actual.width || expected.height != actual.height)
-			fail(s"dimensions doesn't match: ${(expected.width, expected.height)} != ${(actual.width, actual.height)}")
+		if (expected.size != actual.size)
+			fail(s"dimensions doesn't match: ${expected.size} != ${actual.size}")
 
 		val expectedImage = expected.image
 		val actualImage = actual.image
 		for {
-			x ← 0 until expected.width
-			y ← 0 until expected.height
-		} assert(expectedImage.getRGB(x, y) === actualImage.getRGB(x, y))
+			x ← 0 until expected.size.x
+			y ← 0 until expected.size.y
+		} assert(expectedImage(x, y) === actualImage(x, y))
 	}
 }

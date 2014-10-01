@@ -12,26 +12,25 @@ import java.util.Date
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.awt.Font
-import java.awt.Color
+import org.uqbar.cacao.Color
 import org.uqbar.math.vectors.Vector
-import java.awt.Graphics2D
+import org.uqbar.cacao.Renderer
+import org.uqbar.cacao.Rectangle
+import org.uqbar.cacao._
 
-class LogPanel(val maxLineCount: Int = 5) extends Visible {
+class LogPanel(val font: Font, val maxLineCount: Int = 5) extends Visible {
 
 	final val DATE_FORMAT = new SimpleDateFormat("HH:mm:ss:SSS")
-	final val FONT = new Font(Font.SANS_SERIF, Font.BOLD, 14)
-	final val FONT_COLOR = Color.BLACK
-	final val BACKGROUND_COLOR = new Color(125, 125, 125, 125)
+	final val FONT_COLOR = Color.Black
+	final val BACKGROUND_COLOR = Color(125, 125, 125, 125)
 
 	z = 12000
 
-	val appearance = new Label(FONT)(FONT_COLOR)() {
-		override def renderAt(basePosition: Vector, graphics: Graphics2D) {
-			graphics.setColor(BACKGROUND_COLOR)
-			graphics.fillRect(left, top, width + 5, height + 5)
-
-			super.renderAt(basePosition, graphics)
+	val appearance = new Label(font, FONT_COLOR)() {
+		override def renderAt(basePosition: Vector)(renderer: Renderer) {
+			renderer.color = BACKGROUND_COLOR
+			renderer fill Rectangle((left, top), size + (5, 5))
+			super.renderAt(basePosition)(renderer)
 		}
 	}
 

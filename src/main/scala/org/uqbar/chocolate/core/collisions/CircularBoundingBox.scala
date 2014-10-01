@@ -1,24 +1,23 @@
 package org.uqbar.chocolate.core.collisions;
 
-import java.awt.Graphics2D
+import org.uqbar.cacao.Renderer
 import java.awt.geom.Point2D
 import org.uqbar.chocolate.core.utils.Implicits._
 import scala.math.{ sqrt, pow }
 import org.uqbar.math.vectors.Vector
 import org.uqbar.math.vectors._
 
-case class CircularBoundingBox(radius : Double) extends BoundingBox {
+case class CircularBoundingBox(radius: Double) extends BoundingBox {
 	def left = translation.x - radius
 	def top = translation.y - radius
 
-	def width = diameter
-	def height = diameter
+	def size = (diameter, diameter)
 
 	// ****************************************************************
 	// ** TRANSFORMATIONS
 	// ****************************************************************
 
-	def scale(hRatio : Double)(vRatio : Double) = null //TODO
+	def scale(hRatio: Double)(vRatio: Double) = null //TODO
 
 	// ****************************************************************
 	// ** QUERIES
@@ -32,19 +31,19 @@ case class CircularBoundingBox(radius : Double) extends BoundingBox {
 	// ** COLLISION DETECTION
 	// ****************************************************************
 
-	protected def collidesWith(translation : Vector)(targetTranslation : Vector) = {
-		case circle : CircularBoundingBox ⇒ collidesWithCircle(translation)(circle, targetTranslation)
-		case rectangle : RectangularBoundingBox ⇒ collidesWithRectangle(translation)(rectangle, targetTranslation)
+	protected def collidesWith(translation: Vector)(targetTranslation: Vector) = {
+		case circle: CircularBoundingBox ⇒ collidesWithCircle(translation)(circle, targetTranslation)
+		case rectangle: RectangularBoundingBox ⇒ collidesWithRectangle(translation)(rectangle, targetTranslation)
 	}
 
-	protected def collidesWithCircle(translation : Vector)(target : CircularBoundingBox, targetTranslation : Vector) : Boolean = {
+	protected def collidesWithCircle(translation: Vector)(target: CircularBoundingBox, targetTranslation: Vector): Boolean = {
 		val distanceSq = ((center, middle) + translation).squareDistanceTo((target.center, target.middle) + targetTranslation)
 		val radiusSum = radius + target.radius
 
 		distanceSq < radiusSum * radiusSum
 	}
 
-	protected def collidesWithRectangle(translation : Vector)(target : RectangularBoundingBox, targetTranslation : Vector) : Boolean = {
+	protected def collidesWithRectangle(translation: Vector)(target: RectangularBoundingBox, targetTranslation: Vector): Boolean = {
 		val targetLeft = target.left + targetTranslation.x
 		val targetRight = target.right + targetTranslation.x
 		val targetTop = target.top + targetTranslation.y
@@ -54,7 +53,7 @@ case class CircularBoundingBox(radius : Double) extends BoundingBox {
 		val extendedTargetBottom = targetBottom + radius
 		val extendedTargetLeft = targetLeft - radius
 		val radiusSq = radius * radius
-		val centerPoint : Vector = (center, middle) + translation
+		val centerPoint: Vector = (center, middle) + translation
 
 		if (centerPoint.x >= targetLeft)
 			if (centerPoint.x <= targetRight)
@@ -73,20 +72,20 @@ case class CircularBoundingBox(radius : Double) extends BoundingBox {
 	// ** COLLISION CORRECTION QUERIES
 	// ****************************************************************
 
-	def collisionCorrectionVector(translation : Vector)(targetTranslation : Vector) = {
-		case circle : CircularBoundingBox ⇒ collisionCorrectionVectorAgainstCircle(translation)(circle, targetTranslation)
-		case rectangle : RectangularBoundingBox ⇒ collisionCorrectionVectorAgainstRectangle(translation)(rectangle, targetTranslation)
+	def collisionCorrectionVector(translation: Vector)(targetTranslation: Vector) = {
+		case circle: CircularBoundingBox ⇒ collisionCorrectionVectorAgainstCircle(translation)(circle, targetTranslation)
+		case rectangle: RectangularBoundingBox ⇒ collisionCorrectionVectorAgainstRectangle(translation)(rectangle, targetTranslation)
 	}
 
-	protected def collisionCorrectionVectorAgainstCircle(translation : Vector)(target : CircularBoundingBox, targetTranslation : Vector) = {
+	protected def collisionCorrectionVectorAgainstCircle(translation: Vector)(target: CircularBoundingBox, targetTranslation: Vector) = {
 		val vector = (center(translation), middle(translation)) - (target.center(targetTranslation), target.middle(targetTranslation))
 		val scale = 1 - vector.module / (radius + target.radius)
 
 		vector * scale
 	}
 
-	protected def collisionCorrectionVectorAgainstRectangle(translation : Vector)(target : RectangularBoundingBox, targetTranslation : Vector) : Vector = {
-		val half : Vector = (center(translation), middle(translation))
+	protected def collisionCorrectionVectorAgainstRectangle(translation: Vector)(target: RectangularBoundingBox, targetTranslation: Vector): Vector = {
+		val half: Vector = (center(translation), middle(translation))
 
 		val targetTop = target.top(targetTranslation)
 		val targetBottom = target.bottom(targetTranslation)
