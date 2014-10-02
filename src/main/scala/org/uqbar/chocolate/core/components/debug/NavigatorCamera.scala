@@ -1,6 +1,7 @@
 package org.uqbar.chocolate.core.components.debug
 
 import org.uqbar.cacao.Color
+import org.uqbar.cacao.{ Camera => CacaoCamera }
 import org.uqbar.cacao.Renderer
 import scala.Int.int2double
 import org.uqbar.chocolate.core.Camera
@@ -21,7 +22,7 @@ object NavigatorCamera extends GameComponent {
 	in {
 		case Pressed(Function(2)) => if (INSTANCE == null) {
 			INSTANCE = new NavigatorCamera
-			INSTANCE.screenSize.set(game.displaySize / 2)
+			INSTANCE.innerCamera.screenSize.set(game.displaySize / 2)
 			scene.addCamera(INSTANCE)
 			scene.addComponent(INSTANCE)
 		} else {
@@ -33,27 +34,25 @@ object NavigatorCamera extends GameComponent {
 }
 
 class NavigatorCamera extends Camera with GameComponent {
-	val screenPosition: MutableVector = (0, 0)
-	val screenSize: MutableVector = (0, 0)
-	val zoom: MutableVector = (0.5, 0.5)
+	val innerCamera = CacaoCamera(zoom = (0.5, 0.5))
 
 	z = 12000
 
 	in {
-		case Hold(Navigation.Arrow.Left(_), delta) => move(-delta * NavigatorCamera.MOVE_SPEED, 0)
-		case Hold(Navigation.Arrow.Right(_), delta) => move(delta * NavigatorCamera.MOVE_SPEED, 0)
-		case Hold(Navigation.Arrow.Up(_), delta) => move(0, -delta * NavigatorCamera.MOVE_SPEED)
-		case Hold(Navigation.Arrow.Down(_), delta) => move(0, delta * NavigatorCamera.MOVE_SPEED)
-		case Hold(Letter.A, delta) => screenPosition += (-delta * NavigatorCamera.MOVE_SPEED, 0)
-		case Hold(Letter.D, delta) => screenPosition += (delta * NavigatorCamera.MOVE_SPEED, 0)
-		case Hold(Letter.W, delta) => screenPosition += (0, -delta * NavigatorCamera.MOVE_SPEED)
-		case Hold(Letter.S, delta) => screenPosition += (0, delta * NavigatorCamera.MOVE_SPEED)
+		case Hold(Navigation.Arrow.Left(_), delta) => innerCamera.translation += (-delta * NavigatorCamera.MOVE_SPEED, 0)
+		case Hold(Navigation.Arrow.Right(_), delta) => innerCamera.translation += (delta * NavigatorCamera.MOVE_SPEED, 0)
+		case Hold(Navigation.Arrow.Up(_), delta) => innerCamera.translation += (0, -delta * NavigatorCamera.MOVE_SPEED)
+		case Hold(Navigation.Arrow.Down(_), delta) => innerCamera.translation += (0, delta * NavigatorCamera.MOVE_SPEED)
+		case Hold(Letter.A, delta) => innerCamera.screenPosition += (-delta * NavigatorCamera.MOVE_SPEED, 0)
+		case Hold(Letter.D, delta) => innerCamera.screenPosition += (delta * NavigatorCamera.MOVE_SPEED, 0)
+		case Hold(Letter.W, delta) => innerCamera.screenPosition += (0, -delta * NavigatorCamera.MOVE_SPEED)
+		case Hold(Letter.S, delta) => innerCamera.screenPosition += (0, delta * NavigatorCamera.MOVE_SPEED)
 
-		case Pressed(Symbol.+(KeyLocation.Anywhere)) => zoom *= 2
-		case Pressed(Symbol.-(KeyLocation.Anywhere)) => zoom /= 2
+		case Pressed(Symbol.+(KeyLocation.Anywhere)) => innerCamera.zoom *= 2
+		case Pressed(Symbol.-(KeyLocation.Anywhere)) => innerCamera.zoom /= 2
 
-		case Pressed(Letter.E) => screenSize *= 2
-		case Pressed(Letter.Q) => screenSize /= 2
+		case Pressed(Letter.E) => innerCamera.screenSize *= 2
+		case Pressed(Letter.Q) => innerCamera.screenSize /= 2
 	}
 
 	override def apply(renderer: Renderer) = {

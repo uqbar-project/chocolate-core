@@ -5,3 +5,5 @@ target
 .cache
 /bin
 .README.md.html
+*.sc
+.worksheet
