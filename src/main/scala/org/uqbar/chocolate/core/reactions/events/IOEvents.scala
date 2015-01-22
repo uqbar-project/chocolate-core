@@ -1,6 +1,6 @@
 package org.uqbar.chocolate.core.reactions.events
 
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 
 trait IOEvent extends GameEvent
 trait Pressable

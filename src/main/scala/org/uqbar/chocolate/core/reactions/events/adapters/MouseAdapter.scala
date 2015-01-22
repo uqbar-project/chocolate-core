@@ -4,17 +4,15 @@ import java.awt.event.MouseEvent
 import java.awt.event.MouseEvent._
 import java.awt.event.MouseListener
 import java.awt.event.MouseMotionListener
-import org.uqbar.math.vectors._
-import org.uqbar.chocolate.core.reactions.events.MouseMoved
-import org.uqbar.math.vectors._
-import org.uqbar.chocolate.core.reactions.events.MouseMoved
-import org.uqbar.chocolate.core.reactions.io.MouseButton
+import scala.language.implicitConversions
+import org.uqbar.chocolate.core.reactions.events.EventDispatcher
+import org.uqbar.chocolate.core.reactions.events.Hold
+import org.uqbar.chocolate.core.reactions.events.Pressed
 import org.uqbar.chocolate.core.reactions.events.Pressed
 import org.uqbar.chocolate.core.reactions.events.Released
-import org.uqbar.chocolate.core.reactions.events.EventDispatcher
-import org.uqbar.chocolate.core.reactions.events.Pressed
-import scala.language.implicitConversions
-import org.uqbar.chocolate.core.reactions.events.Hold
+import org.uqbar.chocolate.core.reactions.io.MouseButton
+import org.uqbar.math.spaces.R2._
+import org.uqbar.chocolate.core.reactions.events.MouseMoved
 
 //TODO: Mouse Weel?
 //TODO: Multiple button mouse?
@@ -33,11 +31,11 @@ trait MouseAdapter extends MouseMotionListener with MouseListener {
 	//*********************************************************************************************
 
 	override def mouseDragged(e: MouseEvent) {
-		target pushEvent MouseMoved(e.getPoint)
+		target pushEvent MouseMoved(e.getPoint.getX, e.getPoint.getY)
 	}
 
 	override def mouseMoved(e: MouseEvent) {
-		target pushEvent MouseMoved(e.getPoint)
+		target pushEvent MouseMoved(e.getPoint.getX, e.getPoint.getY)
 	}
 
 	override def mouseClicked(e: MouseEvent) {}
