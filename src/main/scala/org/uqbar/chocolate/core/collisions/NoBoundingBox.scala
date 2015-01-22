@@ -2,8 +2,7 @@ package org.uqbar.chocolate.core.collisions;
 
 import org.uqbar.cacao.Renderer
 import java.awt.geom.Point2D;
-import org.uqbar.math.vectors.Vector
-import org.uqbar.math.vectors._
+import org.uqbar.math.spaces.R2._
 
 case object NoBoundingBox extends BoundingBox {
 	def left = 0

@@ -4,7 +4,7 @@ import org.uqbar.chocolate.core.CollisionTest
 import org.uqbar.chocolate.core.collisions.BoundingBox
 import org.uqbar.chocolate.core.reactions.events.Collision
 import scala.collection.mutable.HashSet
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 
 class CollisionTestComponent(
 		var boundingBox : BoundingBox,

@@ -4,8 +4,7 @@ import java.awt.geom.AffineTransform
 import java.awt.image.AffineTransformOp
 import java.awt.image.BufferedImage
 import org.uqbar.chocolate.core.utils.Implicits._
-import org.uqbar.math.vectors.Vector
-import org.uqbar.math.vectors._
+import org.uqbar.math.spaces.R2._
 import org.uqbar.cacao.Renderer
 import org.uqbar.cacao.Image
 

@@ -7,7 +7,7 @@ import java.awt.Font.MONOSPACED
 import org.uqbar.cacao.Renderer
 import Label._
 import org.uqbar.chocolate.core.utils.Implicits.double_to_int
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 import org.uqbar.cacao._
 
 object Label {
@@ -32,10 +32,10 @@ class Label(var font: Font, var color: Color = DEFAULT_COLOR)(someTextLines: Str
 	// ** QUERIES
 	// ****************************************************************
 
-	def size: Vector = ((0.0 +: textLines.map(font.sizeOf(_).x)).max, linesCount * lineHeight)
+	def size: Vector = ((0.0 +: textLines.map(font.sizeOf(_)(X))).max, linesCount * lineHeight)
 
 	def linesCount = textLines.size
-	def lineHeight = font.sizeOf(textLines.headOption.getOrElse("")).y
+	def lineHeight = font.sizeOf(textLines.headOption.getOrElse(""))(Y)
 
 	// ****************************************************************
 	// ** OPERATIONS

@@ -3,7 +3,7 @@ package org.uqbar.chocolate.core.appearances;
 import org.uqbar.cacao.Renderer
 import org.uqbar.chocolate.core.dimensions.Bounded
 import org.uqbar.chocolate.core.dimensions.Positioned
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 import org.uqbar.chocolate.core.dimensions.Scalable
 
 /*
@@ -23,8 +23,8 @@ import org.uqbar.chocolate.core.dimensions.Scalable
 
 //TODO: Achicar este contrato. Ahora que es un trait, podemos limpiarlo al mínimo indispensabe y dejar las transformaciones y blehs en los implementadores
 trait Appearance extends Bounded with Positioned {
-	def left = translation.x
-	def top = translation.y
+	def left = translation(X)
+	def top = translation(Y)
 
 	def update(delta: Double)
 
@@ -52,7 +52,7 @@ trait ComplexAppearance extends Appearance with Scalable {
 	//
 	//	def repeatHorizontallyToCover(widthToCover : Double) = repeatHorizontally(widthToCover / width)
 	//	def repeatVerticallyToCover(heightToCover : Double) = repeatVertically(heightToCover / height)
-	//	def repeatToCover(areaToCover : Vector) = repeat(areaToCover.x / width, areaToCover.y / height)
+	//	def repeatToCover(areaToCover : Vector) = repeat(areaToCover(X) / width, areaToCover(Y) / height)
 	//
 	//	// ****************************************************************
 	//	// ** CROPPING

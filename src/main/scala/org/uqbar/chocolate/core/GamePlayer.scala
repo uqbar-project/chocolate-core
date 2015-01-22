@@ -5,7 +5,7 @@ import org.uqbar.cacao.Renderer
 import java.awt.Point
 import java.awt.Toolkit
 import java.awt.image.MemoryImageSource
-import org.uqbar.math.vectors._
+import org.uqbar.math.spaces.R2._
 import org.uqbar.chocolate.core.reactions.events.adapters.KeyboardAdapter
 import org.uqbar.chocolate.core.reactions.events.adapters.MouseAdapter
 

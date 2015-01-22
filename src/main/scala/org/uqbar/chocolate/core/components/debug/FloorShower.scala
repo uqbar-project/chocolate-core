@@ -6,6 +6,7 @@ import org.uqbar.chocolate.core.reactions.events.Render
 import org.uqbar.cacao.Line
 import org.uqbar.cacao.Color
 import org.uqbar.cacao.Rectangle
+import org.uqbar.math.spaces.R2._
 
 class FloorShower extends GameComponent {
 
@@ -21,8 +22,8 @@ class FloorShower extends GameComponent {
 
 	in {
 		case Render(renderer) =>
-			val gameWidth = game.displaySize.x.toInt
-			val gameHeight = game.displaySize.y.toInt
+			val gameWidth = game.displaySize(X).toInt
+			val gameHeight = game.displaySize(Y).toInt
 			val collisionZonesWidth = scene.collisionZoneSize.getWidth.toInt
 			val collisionZonesHeight = scene.collisionZoneSize.getHeight.toInt
 

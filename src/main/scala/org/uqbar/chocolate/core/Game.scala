@@ -18,7 +18,7 @@ import org.uqbar.chocolate.core.utils.Implicits.min
 import org.uqbar.chocolate.core.components.debug.NavigatorCamera
 import org.uqbar.chocolate.core.reactions.events.ContinuableEvent
 import org.uqbar.chocolate.core.reactions.events.EventDispatcher
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 import scala.collection.mutable.Map
 import org.uqbar.chocolate.core.loaders.ResourceLoader
 

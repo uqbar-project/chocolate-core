@@ -3,7 +3,7 @@ package org.uqbar.chocolate.core;
 import scala.Int.int2double
 
 import org.uqbar.chocolate.core.collisions.RectangularBoundingBox
-import org.uqbar.math.vectors._
+import org.uqbar.math.spaces.R2._
 import org.scalatest.FunSuite
 
 //TODO: More exhaustive testing

@@ -11,6 +11,8 @@ import collection.JavaConversions._
 import org.uqbar.chocolate.core.collisions.CircularBoundingBox
 import org.uqbar.chocolate.core.collisions.CircularBoundingBox
 
+import org.uqbar.math.spaces.R2._
+
 import org.scalatest.fixture.FunSuite
 import org.scalatest.Outcome
 

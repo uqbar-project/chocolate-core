@@ -6,7 +6,7 @@ import org.uqbar.cacao.Renderer
 import org.uqbar.chocolate.core.appearances.Label
 import org.uqbar.chocolate.core.components.Visible
 import org.uqbar.chocolate.core.reactions.events.Update
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 import StatisticsReader._
 import org.uqbar.chocolate.core.reactions.events.Update
 import org.uqbar.cacao._
@@ -85,7 +85,7 @@ class StatisticsReader(font: Font, windowSize: Int = 5) extends Visible {
 			Used Memory: %9.2f Kb
 			Total Memory: %5.2f Kb
 			""" format
-			(game.displaySize.x, game.displaySize.y,
+			(game.displaySize(X), game.displaySize(Y),
 				zonesSize.getWidth.toInt, zonesSize.getHeight.toInt,
 				currentFPS, minFPS, maxFPS,
 				lastWindowFPSAverage, lastWindowMinFPS, lastWindowMaxFPS, windowSize,

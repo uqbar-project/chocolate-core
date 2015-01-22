@@ -6,7 +6,7 @@ import org.uqbar.chocolate.core.GameScene
 import org.uqbar.chocolate.core.collisions.BoundingBox
 import org.uqbar.chocolate.core.dimensions.Bounded
 import org.uqbar.chocolate.core.dimensions.Positioned
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 import org.uqbar.chocolate.core.reactions.events.CollisionEnd
 import org.uqbar.chocolate.core.reactions.events.Collision
 import org.uqbar.chocolate.core.utils.Implicits.double_to_int
@@ -21,8 +21,8 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 	def coveredZones = if (_coveredZones == null) recalculateCoveredZones else _coveredZones
 	def coveredZones_=(newCoveredZones: Rectangle) = _coveredZones = newCoveredZones
 
-	override def left = translation.x + boundingBox.left
-	override def top = translation.y + boundingBox.top
+	override def left = translation(X) + boundingBox.left
+	override def top = translation(Y) + boundingBox.top
 	override def size = boundingBox.size
 
 	// ****************************************************************
@@ -72,8 +72,8 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 		val zoneSize = scene.collisionZoneSize
 		val standingX = (left / zoneSize.width).floor
 		val standingY = (top / zoneSize.height).floor
-		val coveredX = (size.x / zoneSize.width).ceil + (if (boundingBox.left % zoneSize.width == 0) 0 else 1)
-		val coveredY = (size.y / zoneSize.height).ceil + (if (boundingBox.top % zoneSize.height == 0) 0 else 1)
+		val coveredX = (size(X) / zoneSize.width).ceil + (if (boundingBox.left % zoneSize.width == 0) 0 else 1)
+		val coveredY = (size(Y) / zoneSize.height).ceil + (if (boundingBox.top % zoneSize.height == 0) 0 else 1)
 
 		_coveredZones = new Rectangle(standingX, standingY, coveredX, coveredY)
 
@@ -104,7 +104,7 @@ trait Collisionable extends GameComponent with Bounded with Positioned {
 	}
 
 	override def translation_=(newPosition: Vector) {
-		if ((translation.x.toInt != newPosition.x.toInt || translation.y.toInt != newPosition.y.toInt) && scene != null) {
+		if ((translation(X).toInt != newPosition(X).toInt || translation(Y).toInt != newPosition(Y).toInt) && scene != null) {
 			foreachZone { (x, y) ⇒ scene.removeFromCollisionZone(x, y, this) }
 			super.translation = (newPosition)
 			recalculateCoveredZones

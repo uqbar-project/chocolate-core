@@ -8,6 +8,7 @@ import javax.imageio.ImageIO
 import org.uqbar.chocolate.core.loaders.ResourceLoader
 import org.uqbar.chocolate.core.loaders.SimpleResourceLoader
 import org.uqbar.chocolate.core.utils.Implicits._
+import org.uqbar.math.spaces.R2._
 
 import SpriteTest._
 import org.scalatest.FunSuite
@@ -100,8 +101,8 @@ class SpriteTest extends FunSuite with BeforeAndAfter {
 		val expectedImage = expected.image
 		val actualImage = actual.image
 		for {
-			x ← 0 until expected.size.x
-			y ← 0 until expected.size.y
+			x ← 0 until expected.size(X)
+			y ← 0 until expected.size(Y)
 		} assert(expectedImage(x, y) === actualImage(x, y))
 	}
 }

@@ -4,7 +4,7 @@ import org.uqbar.cacao.Renderer
 import java.awt.geom.Point2D
 import org.uqbar.chocolate.core.dimensions.Bounded
 import org.uqbar.chocolate.core.components.Collisionable
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 import org.uqbar.chocolate.core.utils.Implicits._
 import org.uqbar.chocolate.core.dimensions.Positioned
 import org.uqbar.chocolate.core.dimensions.Scalable

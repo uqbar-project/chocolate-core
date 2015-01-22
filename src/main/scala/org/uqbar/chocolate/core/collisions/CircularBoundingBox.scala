@@ -4,12 +4,11 @@ import org.uqbar.cacao.Renderer
 import java.awt.geom.Point2D
 import org.uqbar.chocolate.core.utils.Implicits._
 import scala.math.{ sqrt, pow }
-import org.uqbar.math.vectors.Vector
-import org.uqbar.math.vectors._
+import org.uqbar.math.spaces.R2._
 
 case class CircularBoundingBox(radius: Double) extends BoundingBox {
-	def left = translation.x - radius
-	def top = translation.y - radius
+	def left = translation(X) - radius
+	def top = translation(Y) - radius
 
 	def size = (diameter, diameter)
 
@@ -44,10 +43,10 @@ case class CircularBoundingBox(radius: Double) extends BoundingBox {
 	}
 
 	protected def collidesWithRectangle(translation: Vector)(target: RectangularBoundingBox, targetTranslation: Vector): Boolean = {
-		val targetLeft = target.left + targetTranslation.x
-		val targetRight = target.right + targetTranslation.x
-		val targetTop = target.top + targetTranslation.y
-		val targetBottom = target.bottom + targetTranslation.y
+		val targetLeft = target.left + targetTranslation(X)
+		val targetRight = target.right + targetTranslation(X)
+		val targetTop = target.top + targetTranslation(Y)
+		val targetBottom = target.bottom + targetTranslation(Y)
 		val extendedTargetTop = targetTop - radius
 		val extendedTargetRight = targetRight + radius
 		val extendedTargetBottom = targetBottom + radius
@@ -55,15 +54,15 @@ case class CircularBoundingBox(radius: Double) extends BoundingBox {
 		val radiusSq = radius * radius
 		val centerPoint: Vector = (center, middle) + translation
 
-		if (centerPoint.x >= targetLeft)
-			if (centerPoint.x <= targetRight)
-				centerPoint.y > extendedTargetTop && centerPoint.y < extendedTargetBottom
-			else if (centerPoint.y >= targetTop) {
-				if (centerPoint.y <= targetBottom) centerPoint.x < extendedTargetRight
+		if (centerPoint(X) >= targetLeft)
+			if (centerPoint(X) <= targetRight)
+				centerPoint(Y) > extendedTargetTop && centerPoint(Y) < extendedTargetBottom
+			else if (centerPoint(Y) >= targetTop) {
+				if (centerPoint(Y) <= targetBottom) centerPoint(X) < extendedTargetRight
 				else centerPoint.squareDistanceTo(targetRight, targetBottom) < radiusSq
 			} else centerPoint.squareDistanceTo(targetRight, targetTop) < radiusSq
-		else if (centerPoint.y >= targetTop)
-			if (centerPoint.y <= targetBottom) centerPoint.x > extendedTargetLeft
+		else if (centerPoint(Y) >= targetTop)
+			if (centerPoint(Y) <= targetBottom) centerPoint(X) > extendedTargetLeft
 			else centerPoint.squareDistanceTo(targetLeft, targetBottom) < radiusSq
 		else centerPoint.squareDistanceTo(targetLeft, targetTop) < radiusSq
 	}
@@ -101,38 +100,38 @@ case class CircularBoundingBox(radius: Double) extends BoundingBox {
 		val radiusSq = radius * radius
 
 		if (minDistance == bottomDistance) {
-			if (targetRight < half.x)
-				-(0, half.y - sqrt(radiusSq - pow(half.x - targetRight, 2)) - targetBottom)
-			else if (targetLeft > half.x)
-				-(0, half.y - sqrt(radiusSq - pow(half.x - targetLeft, 2)) - targetBottom)
+			if (targetRight < half(X))
+				-(0, half(Y) - sqrt(radiusSq - pow(half(X) - targetRight, 2)) - targetBottom)
+			else if (targetLeft > half(X))
+				-(0, half(Y) - sqrt(radiusSq - pow(half(X) - targetLeft, 2)) - targetBottom)
 			else
 				(0, bottomDistance)
 		} else if (minDistance == topDistance) {
-			if (targetRight < half.x)
-				-(0, half.y + sqrt(radiusSq - pow(half.x - targetRight, 2)) - targetTop)
-			else if (targetLeft > half.x)
-				-(0, half.y + sqrt(radiusSq - pow(half.x - targetLeft, 2)) - targetTop)
+			if (targetRight < half(X))
+				-(0, half(Y) + sqrt(radiusSq - pow(half(X) - targetRight, 2)) - targetTop)
+			else if (targetLeft > half(X))
+				-(0, half(Y) + sqrt(radiusSq - pow(half(X) - targetLeft, 2)) - targetTop)
 			else
 				(0, -topDistance)
 		} else if (minDistance == leftDistance) {
-			if (targetBottom < half.y)
-				-(half.x + sqrt(radiusSq - pow(half.y - targetBottom, 2)) - targetLeft, 0)
-			else if (targetTop > half.y)
-				-(half.x + sqrt(radiusSq - pow(half.y - targetTop, 2)) - targetLeft, 0)
+			if (targetBottom < half(Y))
+				-(half(X) + sqrt(radiusSq - pow(half(Y) - targetBottom, 2)) - targetLeft, 0)
+			else if (targetTop > half(Y))
+				-(half(X) + sqrt(radiusSq - pow(half(Y) - targetTop, 2)) - targetLeft, 0)
 			else
 				(-leftDistance, 0)
 		} else {
-			if (targetBottom < half.y)
-				(-half.x + sqrt(radiusSq + pow(half.y - targetBottom, 2)) + targetRight, 0)
-			else if (targetTop > half.y)
-				(-half.x + sqrt(radiusSq + pow(half.y - targetTop, 2)) + targetRight, 0)
+			if (targetBottom < half(Y))
+				(-half(X) + sqrt(radiusSq + pow(half(Y) - targetBottom, 2)) + targetRight, 0)
+			else if (targetTop > half(Y))
+				(-half(X) + sqrt(radiusSq + pow(half(Y) - targetTop, 2)) + targetRight, 0)
 			else
 				(rightDistance, 0)
 		}
 
 		//		def hCorrection(SSS : Double, TTT : Double, UUU : Double) =
-		//			if (targetBottom < half.y) (-half.x + UUU * sqrt(radiusSq + (half.y - targetBottom) ** 2) + SSS, 0)
-		//			else if (targetTop > half.y) (-half.x + UUU * sqrt(radiusSq + (half.y - targetTop) ** 2) + SSS, 0)
+		//			if (targetBottom < half(Y)) (-half(X) + UUU * sqrt(radiusSq + (half(Y) - targetBottom) ** 2) + SSS, 0)
+		//			else if (targetTop > half(Y)) (-half(X) + UUU * sqrt(radiusSq + (half(Y) - targetTop) ** 2) + SSS, 0)
 		//			else (UUU * TTT, 0)
 
 		//Left

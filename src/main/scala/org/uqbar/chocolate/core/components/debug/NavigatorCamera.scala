@@ -6,7 +6,7 @@ import org.uqbar.cacao.Renderer
 import scala.Int.int2double
 import org.uqbar.chocolate.core.Camera
 import org.uqbar.chocolate.core.components.GameComponent
-import org.uqbar.math.vectors._
+import org.uqbar.math.spaces.R2._
 import org.uqbar.chocolate.core.utils.Implicits.double_to_int
 import org.uqbar.chocolate.core.reactions.io.Key._
 import org.uqbar.chocolate.core.reactions.io._
@@ -22,7 +22,7 @@ object NavigatorCamera extends GameComponent {
 	in {
 		case Pressed(Function(2)) => if (INSTANCE == null) {
 			INSTANCE = new NavigatorCamera
-			INSTANCE.innerCamera.screenSize.set(game.displaySize / 2)
+			INSTANCE.innerCamera.screenSize = (game.displaySize / 2)
 			scene.addCamera(INSTANCE)
 			scene.addComponent(INSTANCE)
 		} else {

@@ -2,13 +2,12 @@ package org.uqbar.chocolate.core.collisions;
 
 import scala.collection.immutable.List
 
-import org.uqbar.math.vectors.Vector
-import org.uqbar.math.vectors._
+import org.uqbar.math.spaces.R2._
 
 case class RectangularBoundingBox(asize: Vector) extends BoundingBox {
 
-	def left = translation.x
-	def top = translation.y
+	def left = translation(X)
+	def top = translation(Y)
 	def size = asize
 
 	// ****************************************************************
@@ -20,14 +19,14 @@ case class RectangularBoundingBox(asize: Vector) extends BoundingBox {
 	}
 
 	protected def collidesWithRectangle(translation: Vector)(target: RectangularBoundingBox, targetTranslation: Vector): Boolean = {
-		val ownLeft = left + translation.x
-		val ownTop = top + translation.y
-		val ownRight = right + translation.x
-		val ownBottom = bottom + translation.y
-		val targetLeft = target.left + targetTranslation.x
-		val targetTop = target.top + targetTranslation.y
-		val targetRight = target.right + targetTranslation.x
-		val targetBottom = target.bottom + targetTranslation.y
+		val ownLeft = left + translation(X)
+		val ownTop = top + translation(Y)
+		val ownRight = right + translation(X)
+		val ownBottom = bottom + translation(Y)
+		val targetLeft = target.left + targetTranslation(X)
+		val targetTop = target.top + targetTranslation(Y)
+		val targetRight = target.right + targetTranslation(X)
+		val targetBottom = target.bottom + targetTranslation(Y)
 
 		(ownLeft <= targetLeft && targetLeft < ownRight || targetLeft <= ownLeft && ownLeft < targetRight) &&
 			(ownTop <= targetTop && targetTop < ownBottom || targetTop <= ownTop && ownTop < targetBottom)

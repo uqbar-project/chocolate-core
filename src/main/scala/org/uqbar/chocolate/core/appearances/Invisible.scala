@@ -1,7 +1,7 @@
 package org.uqbar.chocolate.core.appearances;
 
 import org.uqbar.cacao.Renderer
-import org.uqbar.math.vectors._
+import org.uqbar.math.spaces.R2._
 
 class Invisible extends Appearance {
 	def size = Origin

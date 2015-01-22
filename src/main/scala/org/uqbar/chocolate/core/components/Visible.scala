@@ -6,13 +6,14 @@ import org.uqbar.chocolate.core.dimensions.Bounded
 import org.uqbar.chocolate.core.dimensions.Positioned
 import org.uqbar.chocolate.core.reactions.events.Render
 import org.uqbar.chocolate.core.reactions.events.Update
+import org.uqbar.math.spaces.R2.{ X, Y }
 
 trait Visible extends GameComponent with Bounded with Positioned {
 
 	def appearance: Appearance
 
-	override def left = translation.x + appearance.left
-	override def top = translation.y + appearance.top
+	override def left = translation(X) + appearance.left
+	override def top = translation(Y) + appearance.top
 	override def size = appearance.size
 
 	in {

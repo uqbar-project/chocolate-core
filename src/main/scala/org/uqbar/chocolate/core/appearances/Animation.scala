@@ -1,6 +1,6 @@
 package org.uqbar.chocolate.core.appearances;
 
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 import org.uqbar.cacao.Renderer
 
 class Animation(val meanTime: Double, val sprites: Sprite*) extends ComplexAppearance {

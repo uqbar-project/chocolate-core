@@ -1,13 +1,12 @@
 package org.uqbar.chocolate.core.dimensions
 
-import org.uqbar.math.vectors._
-import org.uqbar.math.vectors.Vector
+import org.uqbar.math.spaces.R2._
 import org.uqbar.chocolate.core.utils.Implicits._
 
 object Bounded {
 	def apply(position: Vector)(aSize: Vector) = new Bounded {
-		def top = position.y
-		def left = position.x
+		def top = position(Y)
+		def left = position(X)
 		def size = aSize
 	}
 }
@@ -16,19 +15,19 @@ trait Bounded {
 	def left: Double
 	def size: Vector
 
-	def bottom = top + size.y
-	def right = left + size.x
-	def center = left + size.x / 2
-	def middle = top + size.y / 2
+	def bottom = top + size(Y)
+	def right = left + size(X)
+	def center = left + size(X) / 2
+	def middle = top + size(Y) / 2
 
 	def corner(tx: Bounded ⇒ Double, ty: Bounded ⇒ Double): Vector = (tx(this), ty(this))
 
-	def top(translation: Vector): Double = top + translation.y
-	def left(translation: Vector): Double = left + translation.x
-	def bottom(translation: Vector): Double = bottom + translation.y
-	def right(translation: Vector): Double = right + translation.x
-	def center(translation: Vector): Double = center + translation.x
-	def middle(translation: Vector): Double = middle + translation.y
+	def top(translation: Vector): Double = top + translation(Y)
+	def left(translation: Vector): Double = left + translation(X)
+	def bottom(translation: Vector): Double = bottom + translation(Y)
+	def right(translation: Vector): Double = right + translation(X)
+	def center(translation: Vector): Double = center + translation(X)
+	def middle(translation: Vector): Double = middle + translation(Y)
 
 	def shortestAlignVector(target: Bounded) = List[Vector](
 		(0, target.bottom - top),
