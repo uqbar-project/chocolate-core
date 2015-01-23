@@ -1,14 +1,14 @@
 package org.uqbar.chocolate.core.dimensions
 
-import org.uqbar.math.spaces.R2._
 import org.uqbar.chocolate.core.utils.Cloneable
+import org.uqbar.math.spaces.R2._
 
 trait Positioned extends Cloneable {
   // TODO: Mutable
 	protected var _translation: Vector = (0, 0)
 
 	def translation: Vector = _translation
-	def translation_=(delta: Vector): Unit = _translation = delta
+	def translation_=(delta: Vector): Unit = _translation.set(delta)
 
 	def move(delta: Vector): Unit = {
 		val target = translation + delta
