@@ -8,7 +8,7 @@ trait Positioned extends Cloneable {
 	protected var _translation: MutableVector = (0, 0)
 
 	def translation: Vector = _translation
-	def translation_=(delta: Vector): Unit = _translation.set(delta.x, delta.y)
+	def translation_=(delta: Vector): Unit = _translation.set(delta)
 
 	def move(delta: Vector): Unit = {
 		val target = translation + delta
@@ -21,7 +21,7 @@ trait Positioned extends Cloneable {
 
 	override def clone = {
 		val answer = super.clone
-		answer._translation = (translation.x, translation.y)
+		answer._translation = _translation.copy
 		answer
 	}
 }
